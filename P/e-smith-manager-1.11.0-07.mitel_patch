@@ -1,0 +1,24 @@
+Index: e-smith-manager/createlinks
+diff -u e-smith-manager/createlinks:1.4 e-smith-manager/createlinks:1.5
+--- e-smith-manager/createlinks:1.4	Wed Jan  1 02:46:20 2003
++++ e-smith-manager/createlinks	Tue Jun  7 11:54:26 2005
+@@ -21,18 +21,4 @@
+         "root/etc/e-smith/events/${event}/S${level}${action}");
+ }
+ 
+-sub admin_common_link
+-{
+-    my ($function) = @_;
+-    safe_symlink("../../../functions/$function",
+-        "root/etc/e-smith/web/panels/manager/common/$function");
+-}
+-
+-#--------------------------------------------------
+-# Links for manager/common directory 
+-#--------------------------------------------------
+-
+-admin_common_link("navigation");
+-admin_common_link("noframes");
+-
+ event_link("navigation-conf", 'bootstrap-console-save', 50);
+Index: e-smith-manager/e-smith-manager.spec

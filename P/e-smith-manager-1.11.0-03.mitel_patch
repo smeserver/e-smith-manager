@@ -1,0 +1,218 @@
+Index: e-smith-manager/e-smith-manager.spec
+diff -u e-smith-manager/root/etc/e-smith/web/common/css/sme_core.css:1.11 e-smith-manager/root/etc/e-smith/web/common/css/sme_core.css:1.13
+--- e-smith-manager/root/etc/e-smith/web/common/css/sme_core.css:1.11	Mon Mar 31 16:33:18 2003
++++ e-smith-manager/root/etc/e-smith/web/common/css/sme_core.css	Thu Feb 26 12:34:36 2004
+@@ -2,12 +2,14 @@
+ 
+ /* This is the stylesheet used as the basis for older broswers.
+ 
+- Note that you CANNOT simly add styles here and hope they work.  ONLY CSS level 1
+- styles should be in this file.  Everyting else goes into the other 3 files.
+- 
+- These basic styles ensire that browsers that don't understand the @import method
+- will still be usable.  All modern browsers will use the styles in sme_main.css,
+- sme_menu.css or sme_header.css depending on the frame in which the page is found.   
++Note that you CANNOT simly add styles here and hope they work.  ONLY CSS
++level 1 styles should be in this file.  Everyting else goes into the other 3
++files.
++
++These basic styles ensire that browsers that don't understand the @import
++method will still be usable.  All modern browsers will use the styles in
++sme_main.css, sme_menu.css or sme_header.css depending on the frame in which
++the page is found.   
+ */
+ 
+ /* Default HTML styles */
+@@ -24,13 +26,15 @@
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px; 
+ }
++
+ p {
+-	 margin-top: 8px;
+-	 margin-bottom: 2px;
++    margin-top: 8px;
++    margin-bottom: 2px;
+ }
++
+ form {
+-	 margin-top: 2px;
+-	 margin-bottom: 2px;
++    margin-top: 2px;
++    margin-bottom: 2px;
+ }
+ 
+ span {
+@@ -46,34 +50,34 @@
+ h1, .h1 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #333333;
+-	 font-size: 18px;
+-	 margin-bottom: 4px;
+-	 margin-top: 12px;
++    font-size: 18px;
++    margin-bottom: 4px;
++    margin-top: 12px;
+ }
+ 
+ h2, .h2 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #333333;
+-	 font-size: 14px;
+-	 margin-bottom: 3px;
+-	 margin-top: 12px;
++    font-size: 14px;
++    margin-bottom: 3px;
++    margin-top: 12px;
+ }
+ 
+ h3, .h3 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     color: #333333;
+-	 font-size: 12px;
+-	 margin-bottom: 2px;
+-	 margin-top: 12px;
++    font-size: 12px;
++    margin-bottom: 2px;
++    margin-top: 12px;
+ }
+ 
+ h4, .h4 {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-style: italic;
+     color: #333333;
+-	 font-size: 12px;
+-	 margin-bottom: 2px;
+-	 margin-top: 10px;
++    font-size: 12px;
++    margin-bottom: 2px;
++    margin-top: 10px;
+ }
+ 
+ ol, ul, li {
+@@ -97,30 +101,33 @@
+     margin-bottom: 0px; 
+     margin-left: 0px; 
+ }
++
+ .hilightbar {
+     background-color: #ffc50a;
+     font-size: 4px;
+ }
++
+ .infobar {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px; 
+     background-color: #cccccc;
+ }
++
+ .darkergrey {
+     color: #666666;
+ }
++
+ td.darkgrey {
+-	background-color: #888888;
++    background-color: #888888;
+ }
++
+ a.update {
+-  	 color: red;
++    color: red;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px; 
+     background: #cccccc; 
+ }
+ 
+-
+-
+ /* Core styles for use with sme_menu.css */
+ 
+ body.menu { 
+@@ -128,38 +135,40 @@
+     font-size: 11px;
+     background-color: #eeeeee;
+ }
++
+ td.section {
+     padding-bottom: 2px; 
+     padding-top: 8px; 
+-
+ }
++
+ .section {
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px;
+     font-weight: bold;
+     background-color: #eeeeee;
+-
+ }
++
+ a.item { 
+     color: #00008b;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px; 
+     background: #eeeeee; 
+ }
++
+ a.sl { 
+-  	 color: green;
++    color: green;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px; 
+     background: #eeeeee; 
+ }
++
+ a.alert { 
+-  	 color: red;
++    color: red;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px; 
+     background: #eeeeee; 
+ }
+ 
+-
+ /* Core styles for use with sme_main.css */
+ body.main { 
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+@@ -172,7 +181,9 @@
+     font-weight: bold;
+     width: 33%;
+     text-align: right;
++    vertical-align: text-top;
+ }
++
+ hr.sectionbar {
+     color: #666666;
+     background-color: #666666;
+@@ -180,25 +191,24 @@
+     width: 80%;
+     border: 0;
+ }
++
+ hr.sme-copyrightbar {
+     color: #dddddd;
+     background-color: #dddddd;
+     height: 1px;
+-	 width: 100%;
+-	 border: 0;
++    width: 100%;
++    border: 0;
+ }
++
+ .sme-copyright {
+     color: #777777;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 10px; 
+ }
+ 
+-
+-
+-
+ /*These style definitions were found int he old css file (manager.css)
+-  but don't seem to ever be referenced in the code.  They're here
+-  for reference.
++but don't seem to ever be referenced in the code.  They're here
++for reference.
+ 
+ .centerit {
+     text-align: center;
