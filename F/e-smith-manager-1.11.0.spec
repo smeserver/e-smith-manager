@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.11.0
-%define release 08
+%define release 09
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -20,10 +20,14 @@ BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildArchitectures: noarch
 Requires: e-smith-lib >= 1.13.1
-Provides: server-manager, perl(I18N::AcceptLanguage)
+Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Wed Aug 17 2005 Charlie Brady <charlieb@e-smith.com>
+- [1.11.0-09]
+- Remove bogus "Provides: perl(I18N::AcceptLanguage)" header. [SF: 1262438]
+
 * Thu Jun  9 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.11.0-08]
 - Add newly required manager/cgi-bin/{navigation,noframes} symlinks.
