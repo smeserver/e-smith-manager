@@ -1,0 +1,13 @@
+Index: e-smith-manager/e-smith-manager.spec
+diff -u e-smith-manager/root/etc/e-smith/web/common/css/sme_main.css:1.13 e-smith-manager/root/etc/e-smith/web/common/css/sme_main.css:1.14
+--- e-smith-manager/root/etc/e-smith/web/common/css/sme_main.css:1.13	Sun Oct 16 22:12:02 2005
++++ e-smith-manager/root/etc/e-smith/web/common/css/sme_main.css	Sun Oct 16 22:14:22 2005
+@@ -78,8 +78,6 @@
+     margin-bottom: 20px;
+     margin-left: 0px;
+     margin-right: 0px;
+-    /* APC: using fixed layout seems to force equal-width columns in IE 6 */
+-	 table-layout: fixed;
+     font-family: Verdana, Arial, Helvetica, sans-serif;
+     font-size: 11px;
+ }

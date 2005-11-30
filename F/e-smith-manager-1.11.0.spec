@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.11.0
-%define release 09
+%define release 12
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -15,6 +15,8 @@ Patch2: e-smith-manager-1.11.0-04.mitel_patch
 Patch3: e-smith-manager-1.11.0-05.mitel_patch
 Patch4: e-smith-manager-1.11.0-07.mitel_patch
 Patch5: e-smith-manager-1.11.0-08.mitel_patch
+Patch6: e-smith-manager-1.11.0-10.mitel_patch
+Patch7: e-smith-manager-1.11.0-11.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -24,6 +26,17 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 1.11.0-12
+- Bump release number only
+
+* Sun Oct 16 2005 Gordon Rowell <gordonr@e-smith.com>
+- [1.11.0-11]
+- Removed "table-layout: fixed;" from sme_main.css [SF: 1299779]
+
+* Sun Oct 16 2005 Gordon Rowell <gordonr@e-smith.com>
+- [1.11.0-10]
+- dos2unix conversion on CSS files [SF: 1299779]
+
 * Wed Aug 17 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.11.0-09]
 - Remove bogus "Provides: perl(I18N::AcceptLanguage)" header. [SF: 1262438]
@@ -462,6 +475,8 @@ ln -s navigation root/etc/e-smith/web/functions/noframes
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
+%patch7 -p1
 
 %build
 perl createlinks
