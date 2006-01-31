@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.11.0
-%define release 12
+%define release 13
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -17,6 +17,7 @@ Patch4: e-smith-manager-1.11.0-07.mitel_patch
 Patch5: e-smith-manager-1.11.0-08.mitel_patch
 Patch6: e-smith-manager-1.11.0-10.mitel_patch
 Patch7: e-smith-manager-1.11.0-11.mitel_patch
+Patch8: e-smith-manager-1.11.0-CSSTemplates.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -26,6 +27,10 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Tue Jan 31 2006 Gordon Rowell <gordonr@gormand.com.au> 1.11.0-13
+- Changed the static CSS files into directory templates, which are
+  expanded in bootstrap-console-save [SME: 408]
+
 * Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 1.11.0-12
 - Bump release number only
 
@@ -477,10 +482,12 @@ ln -s navigation root/etc/e-smith/web/functions/noframes
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 perl createlinks
 mkdir -p root/home/e-smith/db/navigation
+mkdir -p root/etc/e-smith/web/common/css
 
 %install
 rm -rf $RPM_BUILD_ROOT
