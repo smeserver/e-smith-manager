@@ -1,23 +1,14 @@
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
-%define version 1.11.0
-%define release 13
+%define version 1.12.0
+%define release 01
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-manager-1.11.0-02.mitel_patch
-Patch1: e-smith-manager-1.11.0-03.mitel_patch
-Patch2: e-smith-manager-1.11.0-04.mitel_patch
-Patch3: e-smith-manager-1.11.0-05.mitel_patch
-Patch4: e-smith-manager-1.11.0-07.mitel_patch
-Patch5: e-smith-manager-1.11.0-08.mitel_patch
-Patch6: e-smith-manager-1.11.0-10.mitel_patch
-Patch7: e-smith-manager-1.11.0-11.mitel_patch
-Patch8: e-smith-manager-1.11.0-CSSTemplates.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -27,6 +18,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Wed Mar 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.12.0-01
+- Roll stable stream version. [SME: 1016]
+
 * Tue Jan 31 2006 Gordon Rowell <gordonr@gormand.com.au> 1.11.0-13
 - Changed the static CSS files into directory templates, which are
   expanded in bootstrap-console-save [SME: 408]
@@ -473,16 +467,6 @@ This RPM contributes the navigation bars for the e-smith-manager.
 
 %prep
 %setup
-ln -s navigation root/etc/e-smith/web/functions/noframes
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
 
 %build
 perl createlinks
