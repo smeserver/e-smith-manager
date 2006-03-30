@@ -1,7 +1,7 @@
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
-%define version 1.12.0
+%define version 1.13.0
 %define release 01
 Version: %{version}
 Release: %{release}
@@ -18,6 +18,11 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Wed Mar 29 2006 Michael Soulier <michael_soulier@mitel.com>
+- [1.13.0-01]
+- Rolling to dev, picking up patch to support arbitrary menu plugins.
+  [SME: 107]
+
 * Wed Mar 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.12.0-01
 - Roll stable stream version. [SME: 1016]
 
