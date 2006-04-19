@@ -27,3 +27,7 @@ Wed Mar 15 17:09:23 2006                        Charlie Brady (bradyc)
 
 Rename spec file so it's version independent
 ----------------------------------------------------------------------
+Wed Apr 19 12:28:15 2006                    Michael Soulier (msoulier)
+
+Forward-porting menu plugins for arbitrary language panels.
+----------------------------------------------------------------------

@@ -1,0 +1,113 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.0/root/etc/e-smith/events/actions/navigation-conf mezzanine_patched_e-smith-manager-1.13.0/root/etc/e-smith/events/actions/navigation-conf
+--- e-smith-manager-1.13.0/root/etc/e-smith/events/actions/navigation-conf	Wed Mar 19 10:53:27 2003
++++ mezzanine_patched_e-smith-manager-1.13.0/root/etc/e-smith/events/actions/navigation-conf	Wed Apr 19 12:16:23 2006
+@@ -28,6 +28,10 @@
+ use esmith::FormMagick;
+ use esmith::I18N;
+ 
++use constant WEBFUNCTIONS => '/etc/e-smith/web/functions';
++use constant NAVIGATIONDIR => '/home/e-smith/db/navigation';
++use constant NEW_NAVDIR => '/home/e-smith';
++
+ my $navigation_ignore = 
+     "(\.\.?|navigation|noframes|online-manual|(internal|pleasewait)(-.*)?)";
+ 
+@@ -35,8 +39,6 @@
+ 
+ foreach my $lang ( $i18n->availableLanguages() )
+ {
+-    use constant WEBFUNCTIONS => '/etc/e-smith/web/functions';
+-    use constant NAVIGATIONDIR => '/home/e-smith/db/navigation';
+ 
+     opendir FUNCTIONS, WEBFUNCTIONS or 
+ 	die "Couldn't open ", WEBFUNCTIONS, "\n";
+@@ -104,7 +106,34 @@
+ 		DescriptionWeight => $fm->description_weight);
+     }
+ 
++    merge_new_db($navdb, $lang);
++
+     $navdb->close();
+ 
+     chmod 0644, $navinfo;
+ }
++
++sub merge_new_db
++{
++    my $navdb = shift;
++    my $lang = shift;
++
++    # If this doesn't instantiate, it likely doesn't exist. Note that we don't
++    # provide a full path
++    my $dbpath = NEW_NAVDIR . "/navigation.$lang";
++    my $newdb = esmith::ConfigDB->open_ro($dbpath)
++        or return;
++
++    foreach my $new_record ($newdb->get_all)
++    {
++        my $key = $new_record->{key};
++        print "looping on new record $key\n";
++        my $old_record = $navdb->get($key) ||
++                         $navdb->new_record($key);
++
++        $old_record->merge_props($new_record->props);
++    }
++
++    $newdb->close();
++}
++
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.0/root/etc/e-smith/web/functions/navigation mezzanine_patched_e-smith-manager-1.13.0/root/etc/e-smith/web/functions/navigation
+--- e-smith-manager-1.13.0/root/etc/e-smith/web/functions/navigation	Wed Mar 15 16:59:54 2006
++++ mezzanine_patched_e-smith-manager-1.13.0/root/etc/e-smith/web/functions/navigation	Wed Apr 19 12:19:53 2006
+@@ -135,7 +135,6 @@
+ 	foreach my $file (@files)
+ 	{
+ 	    next if (-d "$cgidir/$file");
+-	    next unless (-x "$cgidir/$file");
+ 	    $files_hash{$file} = $cgidir;
+ 	}
+     }
+@@ -187,12 +186,26 @@
+     my $navdb = esmith::ConfigDB->open_ro( $navinfo ) or
+ 	die "Couldn't open $navinfo\n";
+ 
++    # Check the navdb for anything with a UrlPath, which means that it doesn't
++    # have a cgi file to be picked up by the above code. Ideally, only pages
++    # that exist should be in the db, but that's not the case. Anything
++    # without a cgi file will have to remove themselves on uninstall from the
++    # navigation dbs.
++    foreach my $rec ($navdb->get_all)
++    {
++	if ($rec->prop('UrlPath'))
++	{
++	    $files_hash{$rec->{key}} = $cgidir;
++	}
++    }
++
+     foreach my $file (keys %files_hash)
+     {
+ 	my $heading = 'Unknown';
+ 	my $description = $file;
+ 	my $headingWeight = 99999;
+ 	my $descriptionWeight = 99999;
++	my $urlpath = '';
+ 
+ 	my $rec = $navdb->get($file);
+ 
+@@ -202,6 +215,7 @@
+ 	    $description = $rec->prop('Description');
+ 	    $headingWeight = $rec->prop('HeadingWeight');
+ 	    $descriptionWeight = $rec->prop('DescriptionWeight');
++	    $urlpath = $rec->prop('UrlPath') || '';
+ 	}
+ 
+ 	#-------------------------------------------------- 
+@@ -229,7 +243,7 @@
+ 	push @{ $nav {$heading} {'DESCRIPTIONS'} },
+ 		{ DESCRIPTION => $description,
+ 		  WEIGHT => $descriptionWeight, 
+-		  FILENAME => "$path/$file",
++		  FILENAME => $urlpath ? $urlpath : "$path/$file",
+ 		  CGIPATH => $path
+ 		};
+     }

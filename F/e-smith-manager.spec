@@ -2,13 +2,14 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.0
-%define release 01
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-manager-1.13.0-02.menuplugins
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -19,8 +20,12 @@ AutoReqProv: no
 
 %changelog
 * Wed Mar 29 2006 Michael Soulier <michael_soulier@mitel.com>
+- [1.13.0-02]
+- Forward porting arbitrary menu plugins. [SME: 107]
+
+* Wed Mar 29 2006 Michael Soulier <michael_soulier@mitel.com>
 - [1.13.0-01]
-- Rolling to dev, picking up patch to support arbitrary menu plugins.
+- Rolling to dev.
   [SME: 107]
 
 * Wed Mar 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.12.0-01
@@ -472,6 +477,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 
 %prep
 %setup
+%patch0 -p1
 
 %build
 perl createlinks
