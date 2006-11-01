@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.0
-%define release 04
+%define release 05
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -12,6 +12,7 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-manager-1.13.0-02.menuplugins
 Patch1: e-smith-manager-1.13.0-02.menuplugins.fix
 Patch2: e-smith-manager-1.13.0.header_templates.patch
+Patch3: e-smith-manager-1.13.0.index+initial.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -21,7 +22,10 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
-* Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com>
+* Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.0-05
+- Move more server-manager components from e-smith-base RPM. [SME: 2023]
+
+* Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.0-04
 - Add manager header/footer templates (moved from e-smith-base)
   [SME: 2023]
 
@@ -490,11 +494,28 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 perl createlinks
 mkdir -p root/home/e-smith/db/navigation
 mkdir -p root/etc/e-smith/web/common/css
+
+xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/foot.tmpl.po root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright
+# make header/footer symlinks
+ln -s head.tmpl root/etc/e-smith/web/common/userpassword_head.tmpl
+ln -s head.tmpl root/etc/e-smith/web/common/noframes_head.tmpl
+ln -s foot.tmpl root/etc/e-smith/web/common/noframes_foot.tmpl
+
+for file in index initial
+do
+    ln -s ../../../functions/${file}.cgi root/etc/e-smith/web/panels/manager/html/${file}.cgi
+done
+
+# Force creation of potentially empty directories
+mkdir -p root/etc/e-smith/web/{common,functions}
+mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
+mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
 
 %install
 rm -rf $RPM_BUILD_ROOT
