@@ -1,19 +1,14 @@
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
-%define version 1.13.0
-%define release 06
+%define version 1.13.1
+%define release 01
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-manager-1.13.0-02.menuplugins
-Patch1: e-smith-manager-1.13.0-02.menuplugins.fix
-Patch2: e-smith-manager-1.13.0.header_templates.patch
-Patch3: e-smith-manager-1.13.0.index+initial.patch
-Patch4: e-smith-manager-1.13.0.httpd-admin.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -23,6 +18,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Thu Nov 02 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-01
+- Add branch tag and roll new development version.
+
 * Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.0-06
 - Move httpd-admin and its configuration templates from e-smith-base RPM.
   [SME: 2023]
@@ -496,11 +494,6 @@ This RPM contributes the navigation bars for the e-smith-manager.
 
 %prep
 %setup
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 perl createlinks
