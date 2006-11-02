@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.0
-%define release 05
+%define release 06
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -13,6 +13,7 @@ Patch0: e-smith-manager-1.13.0-02.menuplugins
 Patch1: e-smith-manager-1.13.0-02.menuplugins.fix
 Patch2: e-smith-manager-1.13.0.header_templates.patch
 Patch3: e-smith-manager-1.13.0.index+initial.patch
+Patch4: e-smith-manager-1.13.0.httpd-admin.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -22,6 +23,10 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.0-06
+- Move httpd-admin and its configuration templates from e-smith-base RPM.
+  [SME: 2023]
+
 * Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.0-05
 - Move more server-manager components from e-smith-base RPM. [SME: 2023]
 
@@ -495,6 +500,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 perl createlinks
@@ -517,11 +523,32 @@ mkdir -p root/etc/e-smith/web/{common,functions}
 mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
 mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
 
+for service in httpd-admin
+do
+  ln -s /var/service/$service root/service/$service
+  mkdir -p root/var/service/$service/supervise
+  touch root/var/service/$service/down
+  if [ -d root/var/service/$service/log ]
+  then
+    mkdir -p root/var/service/$service/log/supervise
+    mkdir -p root/var/log/$service
+  fi
+  ln -s ../daemontools root/etc/rc.d/init.d/supervise/$service
+done
+
 %install
 rm -rf $RPM_BUILD_ROOT
 (cd root ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
 rm -f %{name}-%{version}-%{release}-filelist
 /sbin/e-smith/genfilelist $RPM_BUILD_ROOT \
+    --dir /var/service/httpd-admin 'attr(01755,root,root)' \
+    --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
+    --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
+    --dir /var/service/httpd-admin/log 'attr(0755,root,root)' \
+    --dir /var/service/httpd-admin/log/supervise 'attr(0700,root,root)' \
+    --dir /var/service/httpd-admin/supervise 'attr(0700,root,root)' \
+    --file /var/service/httpd-admin/log/run 'attr(0755,root,root)' \
+    --dir /var/log/httpd-admin 'attr(0750,smelog,smelog)' \
     > %{name}-%{version}-%{release}-filelist
 echo "%doc COPYING" >> %{name}-%{version}-%{release}-filelist
 
