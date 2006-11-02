@@ -507,12 +507,14 @@ perl createlinks
 mkdir -p root/home/e-smith/db/navigation
 mkdir -p root/etc/e-smith/web/common/css
 
+mkdir -p root/usr/share/locale/en_US/LC_MESSAGES/
 xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/foot.tmpl.po root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright
 # make header/footer symlinks
 ln -s head.tmpl root/etc/e-smith/web/common/userpassword_head.tmpl
 ln -s head.tmpl root/etc/e-smith/web/common/noframes_head.tmpl
 ln -s foot.tmpl root/etc/e-smith/web/common/noframes_foot.tmpl
 
+mkdir -p  root/etc/e-smith/web/panels/manager/html
 for file in index initial
 do
     ln -s ../../../functions/${file}.cgi root/etc/e-smith/web/panels/manager/html/${file}.cgi
@@ -523,6 +525,8 @@ mkdir -p root/etc/e-smith/web/{common,functions}
 mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
 mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
 
+mkdir -p root/service
+mkdir -p root/etc/rc.d/init.d/supervise
 for service in httpd-admin
 do
   ln -s /var/service/$service root/service/$service
