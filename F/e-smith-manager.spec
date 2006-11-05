@@ -2,22 +2,27 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.1
-%define release 01
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-manager-1.13.1.authtkt.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildArchitectures: noarch
 Requires: e-smith-lib >= 1.13.1
+Requires: mod_auth_tkt
 Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Fri Nov 03 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-02
+- Use mod_auth_tkt authentication for server manager access.
+
 * Thu Nov 02 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-01
 - Add branch tag and roll new development version.
 
@@ -494,6 +499,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 
 %prep
 %setup
+%patch0 -p1
 
 %build
 perl createlinks
@@ -538,6 +544,8 @@ rm -rf $RPM_BUILD_ROOT
 (cd root ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
 rm -f %{name}-%{version}-%{release}-filelist
 /sbin/e-smith/genfilelist $RPM_BUILD_ROOT \
+    --file /etc/e-smith/web/common/cgi-bin/login 'attr(0755,root,root)' \
+    --file /etc/e-smith/web/common/cgi-bin/logout 'attr(0755,root,root)' \
     --dir /var/service/httpd-admin 'attr(01755,root,root)' \
     --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
     --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
