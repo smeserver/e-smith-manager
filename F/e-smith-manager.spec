@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.1
-%define release 03
+%define release 04
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -11,6 +11,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-manager-1.13.1.authtkt.patch
 Patch1: e-smith-manager-1.13.1.swapClass.patch
+Patch2: e-smith-manager-1.13.1.no_pleasewait.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -21,6 +22,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Mon Nov 06 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-04
+- Simplify javascript, and remove use of pleasewait script.
+
 * Mon Nov 06 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-03
 - Move swapClass javascript out of standard header and into just
   navigation.
@@ -506,6 +510,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %setup
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 perl createlinks

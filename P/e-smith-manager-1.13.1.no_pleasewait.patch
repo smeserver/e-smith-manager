@@ -1,0 +1,57 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/root/etc/e-smith/web/functions/navigation mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/web/functions/navigation
+--- e-smith-manager-1.13.1/root/etc/e-smith/web/functions/navigation	2006-11-06 15:18:42.000000000 -0500
++++ mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/web/functions/navigation	2006-11-06 15:18:17.000000000 -0500
+@@ -285,9 +285,19 @@
+     }else if(arg[0]==1 && arg[1]==\'none\'){if(tA[i].className==arg[2] || tA[i].className==arg[3]){
+     tA[i].className=(tA[i].className==arg[3])?arg[2]:arg[3];}
+     }else if(tA[i].className==arg[2]){tA[i].className=arg[3];}}}}}
++    ';
++    print "
++  //This swap the class of the selected item.
++    function swapClasses() {
++    var arg=swapClasses.arguments;
++    swapClass(0,'none','item-current','item','a');
++    swapClass(0,'none','warn-current','warn','a');
++    swapClass(0,arg[0],'item-current','item','a');
++    }
++
+     // End script hiding -->
+     </script>
+-    ';
++    ";
+ 
+     foreach $h (@sortedheadings)
+     {
+@@ -327,30 +337,14 @@
+ 	    }
+ 	    else
+   	    {
+-              my $_class_root_base = "item";
+-              my $_class_root_warn   = "warn";
+-              my $_class = "$_class_root_base";
+-              my $_class_selected = "$_class_root_base"."-current";
+-              my $_class2 = "$_class_root_warn";
+-              my $_class2_selected = "$_class_root_warn"."-current";
+-#              if ( $unsorteddescriptions [$i]->{'DESCRIPTION'} =~ m#Remote access#i) { 
+-#                $_class = "$_class_root_warn";
+-#                $_class_selected = "$_class_root_warn"."-current";
+-#                $_class2 = "$_class_root_base";
+-#                $_class2_selected = "$_class_root_base"."-current";
+-#              }
+-   		
+                 my $href = 
+ 		    "/server-manager" .
+-		    $unsorteddescriptions [$i]->{'CGIPATH'} .
+-		    "/pleasewait?" .
+-		    "/server-manager" .
+ 		    $unsorteddescriptions [$i]->{'FILENAME'};
+                     print "\n",$q->Tr(
+ 			     $q->td ({-class => "menu-cell"},
+ 				     $q->a ({-id => "sme$c",
+-                                            -class => "$_class",
+-                                            -onClick => "swapClass(0,'none','$_class_selected','$_class','a');swapClass(0,'none','$_class2_selected','$_class2','a');swapClass(0,'sme$c','$_class_selected','$_class','a')",
++                                            -class => "item",
++                                            -onClick => "swapClasses('sme$c')",
+                                             href => $href, 
+                                             target => 'main'}, 
+                                         $unsorteddescriptions [$i]->{'DESCRIPTION'})
