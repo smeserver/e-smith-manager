@@ -12,6 +12,7 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-manager-1.13.1.authtkt.patch
 Patch1: e-smith-manager-1.13.1.swapClass.patch
 Patch2: e-smith-manager-1.13.1.no_pleasewait.patch
+Patch3: e-smith-manager-1.13.1.simplify_navigation.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -22,6 +23,10 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Mon Nov 06 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-05
+- Simplify the sorting code in navigation (so that I can understand
+  it).
+
 * Mon Nov 06 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-04
 - Simplify javascript, and remove use of pleasewait script.
 
@@ -511,6 +516,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 perl createlinks
