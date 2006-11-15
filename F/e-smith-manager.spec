@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.1
-%define release 04
+%define release 06
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -13,6 +13,7 @@ Patch0: e-smith-manager-1.13.1.authtkt.patch
 Patch1: e-smith-manager-1.13.1.swapClass.patch
 Patch2: e-smith-manager-1.13.1.no_pleasewait.patch
 Patch3: e-smith-manager-1.13.1.simplify_navigation.patch
+Patch4: e-smith-manager-1.13.1.navigation-conf.noFM.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -23,6 +24,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Wed Nov 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-06
+- Avoid use of FormMagick in navigation-conf. TODO: fix I18N.
+
 * Mon Nov 06 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-05
 - Simplify the sorting code in navigation (so that I can understand
   it).
@@ -517,6 +521,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 perl createlinks
