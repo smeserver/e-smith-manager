@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.1
-%define release 07
+%define release 08
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -15,6 +15,7 @@ Patch2: e-smith-manager-1.13.1.no_pleasewait.patch
 Patch3: e-smith-manager-1.13.1.simplify_navigation.patch
 Patch4: e-smith-manager-1.13.1.navigation-conf.noFM.patch
 Patch5: e-smith-manager-1.13.1.navigation-conf.noFM.patch2
+Patch6: e-smith-manager-1.13.1.ProxyPassReverse.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -25,6 +26,10 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Tue Nov 21 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-08
+- Add ProxyPassReverse entries for server-manager passthroughs, so that
+  redirects work correctly.
+
 * Thu Nov 16 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-07
 - Add basic L10N in navigation-conf.
 
@@ -527,6 +532,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 perl createlinks

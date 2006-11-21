@@ -1,0 +1,11 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/VirtualHosts/27ManagerProxyPass mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/VirtualHosts/27ManagerProxyPass
+--- e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/VirtualHosts/27ManagerProxyPass	2006-11-21 11:50:40.000000000 -0500
++++ mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/VirtualHosts/27ManagerProxyPass	2006-11-21 11:50:19.000000000 -0500
+@@ -12,6 +12,7 @@
+             $OUT .= "    RewriteRule ^/$place(/.*|\$)    https://%{HTTP_HOST}/$place\$1 [L,R]\n";
+         } else {
+             $OUT .= "    ProxyPass /$place http://127.0.0.1:${'httpd-admin'}{TCPPort}/$place\n";
++            $OUT .= "    ProxyPassReverse /$place http://127.0.0.1:${'httpd-admin'}{TCPPort}/$place\n";
+         }
+ 
+         $OUT .= "    <Location /$place>\n";
