@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.1
-%define release 08
+%define release 09
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -16,6 +16,7 @@ Patch3: e-smith-manager-1.13.1.simplify_navigation.patch
 Patch4: e-smith-manager-1.13.1.navigation-conf.noFM.patch
 Patch5: e-smith-manager-1.13.1.navigation-conf.noFM.patch2
 Patch6: e-smith-manager-1.13.1.ProxyPassReverse.patch
+Patch7: e-smith-manager-1.13.1.randomize.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
@@ -26,6 +27,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Mon Nov 27 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-09
+- Randomize string used for encrypting auth tickets.
+
 * Tue Nov 21 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-08
 - Add ProxyPassReverse entries for server-manager passthroughs, so that
   redirects work correctly.
@@ -533,6 +537,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 perl createlinks
