@@ -1,0 +1,105 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/root/etc/e-smith/web/functions/navigation mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/web/functions/navigation
+--- e-smith-manager-1.13.1/root/etc/e-smith/web/functions/navigation	2006-11-06 16:09:07.000000000 -0500
++++ mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/web/functions/navigation	2006-11-06 15:35:04.000000000 -0500
+@@ -36,7 +36,6 @@
+ 
+ sub determineGroup;
+ sub showNavigation ($);
+-sub byweight;
+ 
+ BEGIN
+ {
+@@ -251,25 +250,13 @@
+     #-------------------------------------------------- 
+     # generate list of headings sorted by average weight
+     #-------------------------------------------------- 
+-
+-    my @unsortedheadings = keys %nav;
+-
+-    my $h;
+-    local @esmith::weights = ();
+-    foreach $h (@unsortedheadings)
+-    {
+-        push (@esmith::weights, ($nav {$h} {'WEIGHT'} / $nav {$h} {'COUNT'}));
+-    }
+-
+-    my @sortedheadings = @unsortedheadings [sort byweight $[..$#unsortedheadings];
+-
+     if ( $NO_FRAMES )
+     {
+ 	esmith::cgi::genNoframesHeader ($q);
+     }
+     else
+     {
+-        esmith::cgi::genNavigationHeader ($q, $#sortedheadings);
++        esmith::cgi::genNavigationHeader ($q, undef);
+ 	print "\n<TABLE BORDER=\"0\" CELLSPACING=\"0\" CELLPADDING=\"0\">\n";
+     }
+ 
+@@ -299,7 +286,9 @@
+     </script>
+     ";
+ 
+-    foreach $h (@sortedheadings)
++    foreach my $h (sort {
++	 ($nav{$a}{'WEIGHT'}/$nav{$a}{'COUNT'}) <=>
++	($nav{$b}{'WEIGHT'}/$nav{$b}{'COUNT'}) } keys %nav)
+     {
+         if ( $NO_FRAMES )
+ 	{
+@@ -313,41 +302,25 @@
+ 	#-------------------------------------------------- 
+ 	# generate list of descriptions sorted by weight
+ 	#-------------------------------------------------- 
+-
+-	my @unsorteddescriptions = @{ $nav {$h} {'DESCRIPTIONS'} };
+-
+-	my $d;
+-	@esmith::weights = ();
+-	foreach $d (@unsorteddescriptions)
+-	{
+-   	 	push (@esmith::weights, $d->{'WEIGHT'}); 
+-	}
+-	my @indices = sort byweight $[..$#unsorteddescriptions;
+-
+         print "<ul>\n" if ( $NO_FRAMES );
+ 
+-	my $i;
+-	foreach $i (@indices)
++	foreach (sort { $a->{'WEIGHT'} <=> $b->{'WEIGHT'} }  @{$nav {$h}{'DESCRIPTIONS'}})
+ 	{
++	    my $href = "/server-manager" .  $_->{'FILENAME'};
+ 	    if ( $NO_FRAMES )
+ 	    {
+-		my $href = "/server-manager" .
+-		$unsorteddescriptions [$i]->{'FILENAME'};
+-		print $q->li ($q->a ({href => "$href?noframes=1"}, $unsorteddescriptions [$i]->{'DESCRIPTION'}));
++		print $q->li ($q->a ({href => "$href?noframes=1"}, $_->{'DESCRIPTION'}));
+ 	    }
+ 	    else
+   	    {
+-                my $href = 
+-		    "/server-manager" .
+-		    $unsorteddescriptions [$i]->{'FILENAME'};
+-                    print "\n",$q->Tr(
++		print "\n",$q->Tr(
+ 			     $q->td ({-class => "menu-cell"},
+ 				     $q->a ({-id => "sme$c",
+                                             -class => "item",
+                                             -onClick => "swapClasses('sme$c')",
+                                             href => $href, 
+                                             target => 'main'}, 
+-                                        $unsorteddescriptions [$i]->{'DESCRIPTION'})
++                                        $_->{'DESCRIPTION'})
+ 				     ));
+                         }
+                         $c++;
+@@ -362,8 +335,3 @@
+         esmith::cgi::genNavigationFooter ($q);
+     }
+ }
+-
+-sub byweight
+-{
+-    $esmith::weights [$a] <=> $esmith::weights [$b];
+-}

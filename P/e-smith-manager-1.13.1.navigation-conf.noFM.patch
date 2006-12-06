@@ -1,0 +1,88 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/root/etc/e-smith/events/actions/navigation-conf mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/events/actions/navigation-conf
+--- e-smith-manager-1.13.1/root/etc/e-smith/events/actions/navigation-conf	2006-11-02 11:38:41.000000000 -0500
++++ mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/events/actions/navigation-conf	2006-11-15 16:11:04.000000000 -0500
+@@ -25,7 +25,6 @@
+ use strict;
+ 
+ use esmith::ConfigDB;
+-use esmith::FormMagick;
+ use esmith::I18N;
+ 
+ use constant WEBFUNCTIONS => '/etc/e-smith/web/functions';
+@@ -64,46 +63,32 @@
+ 	# extract heading, description and weight information
+ 	# from CGI script
+ 	#-------------------------------------------------- 
+-	$ENV{'HTTP_ACCEPT_LANGUAGE'} = $lang;
+-
+-	# trick esmith::FormMagick into thinking we are the panel
+-	local $0 = WEBFUNCTIONS . "/$file";
+-
+-	open(main::DATA, $0);
+-
+-	while ( <main::DATA> )
+-	{
+-	    last if /^__DATA__/;
+-	}
+-
+-	#-------------------------------------------------- 
+-	# If an FM subclass for this panel exists, lets try to 
+-	# instantiate it.  Otherwise, we'll just instantiate an
+-	# esmith::FormMagick object.
+-	#-------------------------------------------------- 
+-
+-	my $fm;
+-	eval "use esmith::FormMagick::Panel::${file} ()";
+-	unless ($?)
+-	{
+-	    $fm = eval "esmith::FormMagick::Panel::${file}->new()";
+-	}
+-	unless (defined $fm)
+-	{
+-	    $fm = esmith::FormMagick->new();
+-	}
+-	
+-	#-------------------------------------------------- 
+-	# parse_xml() will not be happy if this is not in fact
+-        # a FormMagick panel and thus doesn't have a __DATA_ section
+-	#-------------------------------------------------- 
+-	my $parse_result = eval { $fm->parse_xml(); };
+-
++        open(SCRIPT, WEBFUNCTIONS . "/$file");
++	my $heading            = undef;
++	my $description        = undef;
++	my $heading_weight     = undef;
++	my $description_weight = undef;
++        while ( <SCRIPT> )
++        {
++            $heading = $1 if (/^\s*#\s*heading\s*:\s*(.+?)\s*$/);
++
++            $description = $1 
++		if (/^\s*#\s*description\s*:\s*(.+?)\s*$/);
++
++            ($heading_weight, $description_weight) = ($1, $2) 
++		if (/^\s*#\s*navigation\s*:\s*(\d+?)\s+(\d+?)\s*$/);
++
++            last if (defined $heading and 
++                defined $description and
++                defined $heading_weight and
++                defined $description_weight);
++        }
++	close SCRIPT;
+ 	$rec->merge_props(
+-		Heading => $fm->heading,
+-		Description => $fm->description,
+-		HeadingWeight => $fm->heading_weight,
+-		DescriptionWeight => $fm->description_weight);
++		Heading => $heading,
++		Description => $description,
++		HeadingWeight => $heading_weight,
++		DescriptionWeight => $description_weight);
+     }
+ 
+     merge_new_db($navdb, $lang);
+@@ -136,4 +121,3 @@
+ 
+     $newdb->close();
+ }
+-

@@ -1,0 +1,191 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/root/etc/e-smith/events/actions/navigation-conf mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/events/actions/navigation-conf
+--- e-smith-manager-1.13.1/root/etc/e-smith/events/actions/navigation-conf	2006-11-16 11:49:21.000000000 -0500
++++ mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/events/actions/navigation-conf	2006-11-16 11:48:38.000000000 -0500
+@@ -1,7 +1,7 @@
+ #!/usr/bin/perl -w
+ 
+ #----------------------------------------------------------------------
+-# copyright (C) 1999-2003 Mitel Networks Corporation
++# copyright (C) 1999-2006 Mitel Networks Corporation
+ # 
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -17,8 +17,6 @@
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ # 
+-# Technical support for this program is available from Mitel Networks 
+-# Please visit our web site www.mitel.com/sme/ for details.
+ #----------------------------------------------------------------------
+ package esmith;
+ 
+@@ -36,88 +34,99 @@
+ 
+ my $i18n = new esmith::I18N;
+ 
+-foreach my $lang ( $i18n->availableLanguages() )
+-{
++my %navdbs;
+ 
+-    opendir FUNCTIONS, WEBFUNCTIONS or 
+-	die "Couldn't open ", WEBFUNCTIONS, "\n";
++opendir FUNCTIONS, WEBFUNCTIONS or 
++    die "Couldn't open ", WEBFUNCTIONS, "\n";
+ 
+-    my @files = grep (!/^${navigation_ignore}$/, readdir (FUNCTIONS));
+-	
+-    my $navinfo = NAVIGATIONDIR . "/navigation.$lang";
++my @files = grep (!/^${navigation_ignore}$/, readdir (FUNCTIONS));
++my @langs = $i18n->availableLanguages(); 
+ 
+-    system ("/bin/touch", $navinfo);
++use XML::Parser;
++my $parser = new XML::Parser (Style => 'Tree',
++      ProtocolEncoding => 'ISO-8859-1');
+ 
+-    my $navdb = esmith::ConfigDB->open($navinfo) or 
+-	die "Couldn't open $navinfo\n";
++foreach my $file (@files)
++{
++    next if (-d WEBFUNCTIONS . "/$file");
++    next unless (-x WEBFUNCTIONS . "/$file");
+ 
+-    foreach my $file (@files)
++    #-------------------------------------------------- 
++    # extract heading, description and weight information
++    # from CGI script
++    #-------------------------------------------------- 
++    open(SCRIPT, WEBFUNCTIONS . "/$file");
++    my $heading            = undef;
++    my $description        = undef;
++    my $heading_weight     = undef;
++    my $description_weight = undef;
++    while ( <SCRIPT> )
+     {
+-	next if (-d WEBFUNCTIONS . "/$file");
+-	next unless (-x WEBFUNCTIONS . "/$file");
++	$heading = $1 if (/^\s*#\s*heading\s*:\s*(.+?)\s*$/);
+ 
+-	my $rec = $navdb->get($file) || 
+-		$navdb->new_record($file, { type => 'panel' } );
++	$description = $1 
++	    if (/^\s*#\s*description\s*:\s*(.+?)\s*$/);
+ 
+-	#-------------------------------------------------- 
+-	# extract heading, description and weight information
+-	# from CGI script
+-	#-------------------------------------------------- 
+-        open(SCRIPT, WEBFUNCTIONS . "/$file");
+-	my $heading            = undef;
+-	my $description        = undef;
+-	my $heading_weight     = undef;
+-	my $description_weight = undef;
+-        while ( <SCRIPT> )
+-        {
+-            $heading = $1 if (/^\s*#\s*heading\s*:\s*(.+?)\s*$/);
+-
+-            $description = $1 
+-		if (/^\s*#\s*description\s*:\s*(.+?)\s*$/);
+-
+-            ($heading_weight, $description_weight) = ($1, $2) 
+-		if (/^\s*#\s*navigation\s*:\s*(\d+?)\s+(\d+?)\s*$/);
+-
+-            last if (defined $heading and 
+-                defined $description and
+-                defined $heading_weight and
+-                defined $description_weight);
+-        }
+-	close SCRIPT;
+-	$rec->merge_props(
+-		Heading => $heading,
+-		Description => $description,
+-		HeadingWeight => $heading_weight,
+-		DescriptionWeight => $description_weight);
+-    }
++	($heading_weight, $description_weight) = ($1, $2) 
++	    if (/^\s*#\s*navigation\s*:\s*(\d+?)\s+(\d+?)\s*$/);
+ 
+-    merge_new_db($navdb, $lang);
++	last if (defined $heading and 
++	    defined $description and
++	    defined $heading_weight and
++	    defined $description_weight);
++    }
++    close SCRIPT;
++    foreach my $lang (@langs)
++    {
++#warn "updating script $file for lang $lang\n";
++	my $navdb = $navdbs{$lang};
++	my $navinfo = NAVIGATIONDIR . "/navigation.$lang";
++	$navdb ||= esmith::ConfigDB->open($navinfo);
++	$navdb ||= esmith::ConfigDB->create($navinfo) or 
++	    die "Couldn't create $navinfo\n";
++        $navdbs{$lang} ||= $navdb;
++	my $rec = $navdb->get($file) || 
++	    $navdb->new_record($file, { type => 'panel' } );
+ 
+-    $navdb->close();
++	my $lexicon = {};
+ 
+-    chmod 0644, $navinfo;
++	my $lfile = "/etc/e-smith/locale/$lang/etc/e-smith/web/functions/$file";
++	if (-f $lfile)
++	{
++	    # Do a quick and dirty parse of the lexicon file
++	    my $xml = $parser->parsefile($lfile);
++	    my @lexicon = @{$xml->[1]};
++	    shift @lexicon; # Remove lexicon attributes
++	    while (@lexicon)
++	    {
++		my ($tag, $data) = splice(@lexicon, 0, 2);
++		next unless $tag eq 'entry';
++		my %entry_hash = ('attributes', @$data);
++		my $base = $entry_hash{base};
++		$base = @{$base}[2];
++		my $trans = $entry_hash{trans};
++		$trans = @{$trans}[2];
++		next unless defined $base && defined $trans;
++		$lexicon->{$base} = $trans;
++	    }
++         }
++	$rec->merge_props(
++	    Heading => localise($lexicon, $heading),
++	    Description => localise($lexicon, $description),
++	    HeadingWeight => localise($lexicon, $heading_weight),
++	    DescriptionWeight => localise($lexicon, $description_weight));
++    }
+ }
+-
+-sub merge_new_db
++foreach my $lang (@langs)
+ {
+-    my $navdb = shift;
+-    my $lang = shift;
+-
+-    # If this doesn't instantiate, it likely doesn't exist. Note that we don't
+-    # provide a full path
+-    my $dbpath = NEW_NAVDIR . "/navigation.$lang";
+-    my $newdb = esmith::ConfigDB->open_ro($dbpath)
+-        or return;
+-
+-    foreach my $new_record ($newdb->get_all)
+-    {
+-        my $key = $new_record->{key};
+-        print "looping on new record $key\n";
+-        my $old_record = $navdb->get($key) ||
+-                         $navdb->new_record($key);
+-
+-        $old_record->merge_props($new_record->props);
+-    }
++#warn "trying to close for lang $lang\n";
++    my $navdb = $navdbs{$lang};
++    $navdb->close();
++}
+ 
+-    $newdb->close();
++sub localise {
++    my ($lexicon, $string) = @_;
++    $string  = "" unless defined $string;
++    return $lexicon->{$string} || $string;
+ }
++

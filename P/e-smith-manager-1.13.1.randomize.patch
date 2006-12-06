@@ -1,0 +1,33 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/root/etc/e-smith/db/configuration/migrate/20TKTAuthSecret mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/db/configuration/migrate/20TKTAuthSecret
+--- e-smith-manager-1.13.1/root/etc/e-smith/db/configuration/migrate/20TKTAuthSecret	1969-12-31 19:00:00.000000000 -0500
++++ mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/db/configuration/migrate/20TKTAuthSecret	2006-11-27 14:34:39.000000000 -0500
+@@ -0,0 +1,7 @@
++{
++    my $admin = $DB->get('httpd-admin');
++    return unless $admin;
++    return if $admin->prop('TKTAuthSecret');
++    use Data::UUID;
++    $admin->set_prop('TKTAuthSecret', Data::UUID->new->create_str());
++}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/e-smith/web/common/cgi-bin/AuthTKT.cfg/manager_access mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/e-smith/web/common/cgi-bin/AuthTKT.cfg/manager_access
+--- e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/e-smith/web/common/cgi-bin/AuthTKT.cfg/manager_access	2006-11-27 14:36:39.000000000 -0500
++++ mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/e-smith/web/common/cgi-bin/AuthTKT.cfg/manager_access	2006-11-27 10:53:48.000000000 -0500
+@@ -1,4 +1,5 @@
+ {
+-    $OUT .= "TKTAuthSecret 34322500-7330-4400-423A-3A00434F5245\n";
++    my $secret = ${httpd-admin}{TKTAuthSecret} || "34322500-7330-4400-423A-3A00434F5245";
++    $OUT .= "TKTAuthSecret $secret\n";
+     $OUT .= "TKTAuthTimeoutMin 5";
+ }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20ManagerAuthTKT mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20ManagerAuthTKT
+--- e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20ManagerAuthTKT	2006-11-27 14:36:39.000000000 -0500
++++ mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20ManagerAuthTKT	2006-11-27 10:54:51.000000000 -0500
+@@ -1,2 +1,6 @@
+-LoadModule auth_tkt_module modules/mod_auth_tkt.so
+-TKTAuthSecret "34322500-7330-4400-423A-3A00434F5245"
++{
++    $OUT .= "LoadModule auth_tkt_module modules/mod_auth_tkt.so\n";
++
++    my $secret = ${httpd-admin}{TKTAuthSecret} || "34322500-7330-4400-423A-3A00434F5245";
++    $OUT .= "TKTAuthSecret \"$secret\"\n";
++}
