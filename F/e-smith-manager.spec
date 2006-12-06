@@ -1,86 +1,23 @@
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
-%define version 1.13.1
-%define release 09
+%define version 1.12.0
+%define release 01
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-manager-1.13.1.authtkt.patch
-Patch1: e-smith-manager-1.13.1.swapClass.patch
-Patch2: e-smith-manager-1.13.1.no_pleasewait.patch
-Patch3: e-smith-manager-1.13.1.simplify_navigation.patch
-Patch4: e-smith-manager-1.13.1.navigation-conf.noFM.patch
-Patch5: e-smith-manager-1.13.1.navigation-conf.noFM.patch2
-Patch6: e-smith-manager-1.13.1.ProxyPassReverse.patch
-Patch7: e-smith-manager-1.13.1.randomize.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildArchitectures: noarch
 Requires: e-smith-lib >= 1.13.1
-Requires: mod_auth_tkt
 Provides: server-manager
 AutoReqProv: no
 
 %changelog
-* Mon Nov 27 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-09
-- Randomize string used for encrypting auth tickets.
-
-* Tue Nov 21 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-08
-- Add ProxyPassReverse entries for server-manager passthroughs, so that
-  redirects work correctly.
-
-* Thu Nov 16 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-07
-- Add basic L10N in navigation-conf.
-
-* Wed Nov 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-06
-- Avoid use of FormMagick in navigation-conf. TODO: fix I18N.
-
-* Mon Nov 06 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-05
-- Simplify the sorting code in navigation (so that I can understand
-  it).
-
-* Mon Nov 06 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-04
-- Simplify javascript, and remove use of pleasewait script.
-
-* Mon Nov 06 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-03
-- Move swapClass javascript out of standard header and into just
-  navigation.
-
-* Fri Nov 03 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-02
-- Use mod_auth_tkt authentication for server manager access.
-
-* Thu Nov 02 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-01
-- Add branch tag and roll new development version.
-
-* Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.0-06
-- Move httpd-admin and its configuration templates from e-smith-base RPM.
-  [SME: 2023]
-
-* Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.0-05
-- Move more server-manager components from e-smith-base RPM. [SME: 2023]
-
-* Wed Nov 01 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.0-04
-- Add manager header/footer templates (moved from e-smith-base)
-  [SME: 2023]
-
-* Wed Aug 2 2006 Michael Soulier <msoulier@digitaltorque.ca>
-- [1.13.0-03]
-- Fixing broken db path in patch. [SME: 107]
-
-* Wed Mar 29 2006 Michael Soulier <michael_soulier@mitel.com>
-- [1.13.0-02]
-- Forward porting arbitrary menu plugins. [SME: 107]
-
-* Wed Mar 29 2006 Michael Soulier <michael_soulier@mitel.com>
-- [1.13.0-01]
-- Rolling to dev.
-  [SME: 107]
-
 * Wed Mar 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.12.0-01
 - Roll stable stream version. [SME: 1016]
 
@@ -530,68 +467,17 @@ This RPM contributes the navigation bars for the e-smith-manager.
 
 %prep
 %setup
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
 
 %build
 perl createlinks
 mkdir -p root/home/e-smith/db/navigation
 mkdir -p root/etc/e-smith/web/common/css
 
-mkdir -p root/usr/share/locale/en_US/LC_MESSAGES/
-xgettext -o root/usr/share/locale/en_US/LC_MESSAGES/foot.tmpl.po root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/25Copyright
-# make header/footer symlinks
-ln -s head.tmpl root/etc/e-smith/web/common/userpassword_head.tmpl
-ln -s head.tmpl root/etc/e-smith/web/common/noframes_head.tmpl
-ln -s foot.tmpl root/etc/e-smith/web/common/noframes_foot.tmpl
-
-mkdir -p  root/etc/e-smith/web/panels/manager/html
-for file in index initial
-do
-    ln -s ../../../functions/${file}.cgi root/etc/e-smith/web/panels/manager/html/${file}.cgi
-done
-
-# Force creation of potentially empty directories
-mkdir -p root/etc/e-smith/web/{common,functions}
-mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
-mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
-
-mkdir -p root/service
-mkdir -p root/etc/rc.d/init.d/supervise
-for service in httpd-admin
-do
-  ln -s /var/service/$service root/service/$service
-  mkdir -p root/var/service/$service/supervise
-  touch root/var/service/$service/down
-  if [ -d root/var/service/$service/log ]
-  then
-    mkdir -p root/var/service/$service/log/supervise
-    mkdir -p root/var/log/$service
-  fi
-  ln -s ../daemontools root/etc/rc.d/init.d/supervise/$service
-done
-
 %install
 rm -rf $RPM_BUILD_ROOT
 (cd root ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
 rm -f %{name}-%{version}-%{release}-filelist
 /sbin/e-smith/genfilelist $RPM_BUILD_ROOT \
-    --file /etc/e-smith/web/common/cgi-bin/login 'attr(0755,root,root)' \
-    --file /etc/e-smith/web/common/cgi-bin/logout 'attr(0755,root,root)' \
-    --dir /var/service/httpd-admin 'attr(01755,root,root)' \
-    --file /var/service/httpd-admin/down 'attr(0644,root,root)' \
-    --file /var/service/httpd-admin/run 'attr(0755,root,root)' \
-    --dir /var/service/httpd-admin/log 'attr(0755,root,root)' \
-    --dir /var/service/httpd-admin/log/supervise 'attr(0700,root,root)' \
-    --dir /var/service/httpd-admin/supervise 'attr(0700,root,root)' \
-    --file /var/service/httpd-admin/log/run 'attr(0755,root,root)' \
-    --dir /var/log/httpd-admin 'attr(0750,smelog,smelog)' \
     > %{name}-%{version}-%{release}-filelist
 echo "%doc COPYING" >> %{name}-%{version}-%{release}-filelist
 
