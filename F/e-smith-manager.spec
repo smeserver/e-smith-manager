@@ -2,9 +2,10 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.1
-%define release 09
+%define release 10
 Version: %{version}
-Release: %{release}
+Release: %smerelease %{release}
+Packager: %{_packager}
 License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
@@ -17,7 +18,6 @@ Patch4: e-smith-manager-1.13.1.navigation-conf.noFM.patch
 Patch5: e-smith-manager-1.13.1.navigation-conf.noFM.patch2
 Patch6: e-smith-manager-1.13.1.ProxyPassReverse.patch
 Patch7: e-smith-manager-1.13.1.randomize.patch
-Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildArchitectures: noarch
@@ -27,6 +27,10 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
+- Update to new release naming.  No functional changes.
+- Make Packager generic
+
 * Mon Nov 27 2006 Charlie Brady <charlie_brady@mitel.com> 1.13.1-09
 - Randomize string used for encrypting auth tickets.
 
