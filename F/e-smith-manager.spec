@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.12.0
-%define release 2
+%define release 3
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,6 +10,7 @@ License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch1: e-smith-manager-1.12.0-navigation-conf.noFM.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildArchitectures: noarch
@@ -18,6 +19,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Wed Jan 17 2007 Shad L. Lords <slords@mail.com> 1.12.0-3
+- Backport navigation-conf to fix warnings [SME: 2284]
+
 * Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
 - Update to new release naming.  No functional changes.
 - Make Packager generic
@@ -471,6 +475,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 
 %prep
 %setup
+%patch1 -p1
 
 %build
 perl createlinks
