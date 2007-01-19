@@ -570,6 +570,10 @@ done
 mkdir -p root/etc/e-smith/web/{common,functions}
 mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
 mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
+mkdir -p root/etc/httpd/admin-conf/users
+mkdir -p root/var/state/httpd
+
+ln -s ../../var/state/httpd root/etc/httpd/state
 
 mkdir -p root/service
 mkdir -p root/etc/rc.d/init.d/supervise
