@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.1
-%define release 11
+%define release 12
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -19,6 +19,8 @@ Patch5: e-smith-manager-1.13.1.navigation-conf.noFM.patch2
 Patch6: e-smith-manager-1.13.1.ProxyPassReverse.patch
 Patch7: e-smith-manager-1.13.1.randomize.patch
 Patch8: e-smith-manager-1.13.1.merge.patch
+Patch9: e-smith-manager-1.13.1.logrotate.patch
+Patch10: e-smith-manager-1.13.1.quotehash.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildArchitectures: noarch
@@ -28,6 +30,10 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 1.13.1-12
+- Move apache logrotate to e-smith-apache.
+- Put quotes around 'httpd-admin' in hashes.
+
 * Thu Jan 18 2007 Shad L. Lords <slords@mail.com> 1.13.1-11
 - Move last httpd fragments from e-smith-base.
 
@@ -547,6 +553,8 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 %build
 perl createlinks
@@ -570,10 +578,6 @@ done
 mkdir -p root/etc/e-smith/web/{common,functions}
 mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
 mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
-mkdir -p root/etc/httpd/admin-conf/users
-mkdir -p root/var/state/httpd
-
-ln -s ../../var/state/httpd root/etc/httpd/state
 
 mkdir -p root/service
 mkdir -p root/etc/rc.d/init.d/supervise
