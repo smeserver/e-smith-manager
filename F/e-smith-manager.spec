@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.1
-%define release 12
+%define release 13
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -30,6 +30,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 1.13.1-13
+- Create /etc/httpd/admin-conf directory
+
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 1.13.1-12
 - Move apache logrotate to e-smith-apache.
 - Put quotes around 'httpd-admin' in hashes.
@@ -578,6 +581,7 @@ done
 mkdir -p root/etc/e-smith/web/{common,functions}
 mkdir -p root/etc/e-smith/web/panels/manager/{cgi-bin,html}
 mkdir -p root/etc/e-smith/web/panels/password/{cgi-bin,html}
+mkdir -p root/etc/httpd/admin-conf
 
 mkdir -p root/service
 mkdir -p root/etc/rc.d/init.d/supervise
