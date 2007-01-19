@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.13.1
-%define release 10
+%define release 11
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -18,6 +18,7 @@ Patch4: e-smith-manager-1.13.1.navigation-conf.noFM.patch
 Patch5: e-smith-manager-1.13.1.navigation-conf.noFM.patch2
 Patch6: e-smith-manager-1.13.1.ProxyPassReverse.patch
 Patch7: e-smith-manager-1.13.1.randomize.patch
+Patch8: e-smith-manager-1.13.1.merge.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildArchitectures: noarch
@@ -27,6 +28,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Thu Jan 18 2007 Shad L. Lords <slords@mail.com> 1.13.1-11
+- Move last httpd fragments from e-smith-base.
+
 * Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
 - Update to new release naming.  No functional changes.
 - Make Packager generic
@@ -542,6 +546,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 perl createlinks

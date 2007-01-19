@@ -1,0 +1,44 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/createlinks mezzanine_patched_e-smith-manager-1.13.1/createlinks
+--- e-smith-manager-1.13.1/createlinks	2007-01-18 20:26:43.000000000 -0700
++++ mezzanine_patched_e-smith-manager-1.13.1/createlinks	2007-01-18 20:24:52.000000000 -0700
+@@ -54,6 +54,35 @@
+ 
+ templates2events("/etc/e-smith/web/common/cgi-bin/AuthTKT.cfg", 'bootstrap-console-save');
+ 
++# Set up generic logfile timestamp renaming/symlinking
++
++foreach (qw(
++    /var/log/httpd/error_log
++    /var/log/httpd/access_log
++    /var/log/httpd/admin_access_log
++    /var/log/httpd/admin_error_log
++    ))
++{
++    safe_touch "root/etc/e-smith/events/logrotate/logfiles2timestamp/$_";
++    safe_touch "root/etc/e-smith/events/post-install/logfiles2timestamp/$_";
++    safe_touch "root/etc/e-smith/events/post-upgrade/logfiles2timestamp/$_";
++}
++
++foreach (qw(console-save remoteaccess-update logrotate))
++{
++    safe_symlink("sigusr1", "root/etc/e-smith/events/$_/services2adjust/httpd-admin");
++}
++
++my %service2order =
++(
++    'httpd-admin'	=> "86",
++);
++
++foreach my $service (keys %service2order)
++{
++    service_link_enhanced($service, $service2order{$service}, 7);
++}
++
+ # Symlink httpd-admin to httpd.
+ safe_symlink("httpd", "root/usr/sbin/httpd-admin");
+ 
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/services/20http-admin mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/services/20http-admin
+--- e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/services/20http-admin	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-manager-1.13.1/root/etc/e-smith/templates/etc/services/20http-admin	2005-11-20 21:28:08.000000000 -0700
+@@ -0,0 +1 @@
++http-admin	{ ${'httpd-admin'}{TCPPort} }/tcp		# admin HTTP server
