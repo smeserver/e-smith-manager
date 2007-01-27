@@ -1,8 +1,8 @@
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
-%define version 1.13.1
-%define release 13
+%define version 1.14.0
+%define release 1
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,26 +10,18 @@ License: GPL
 Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-manager-1.13.1.authtkt.patch
-Patch1: e-smith-manager-1.13.1.swapClass.patch
-Patch2: e-smith-manager-1.13.1.no_pleasewait.patch
-Patch3: e-smith-manager-1.13.1.simplify_navigation.patch
-Patch4: e-smith-manager-1.13.1.navigation-conf.noFM.patch
-Patch5: e-smith-manager-1.13.1.navigation-conf.noFM.patch2
-Patch6: e-smith-manager-1.13.1.ProxyPassReverse.patch
-Patch7: e-smith-manager-1.13.1.randomize.patch
-Patch8: e-smith-manager-1.13.1.merge.patch
-Patch9: e-smith-manager-1.13.1.logrotate.patch
-Patch10: e-smith-manager-1.13.1.quotehash.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildArchitectures: noarch
-Requires: e-smith-lib >= 1.13.1
+Requires: e-smith-lib >= 1.14.0
 Requires: mod_auth_tkt
 Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Fri Jan 26 2007 Shad L. Lords <slords@mail.com> 1.14.0-1
+- Roll stable stream. [SME: 2328]
+
 * Fri Jan 19 2007 Shad L. Lords <slords@mail.com> 1.13.1-13
 - Create /etc/httpd/admin-conf directory
 
@@ -547,17 +539,6 @@ This RPM contributes the navigation bars for the e-smith-manager.
 
 %prep
 %setup
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
 
 %build
 perl createlinks
