@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.14.0
-%define release 5
+%define release 6
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -14,6 +14,7 @@ Patch0: e-smith-manager-1.14.0.module_list.patch
 Patch1: e-smith-manager-1.14.0.tktdomain.patch
 Patch2: e-smith-manager-1.14.0.tktdomain.patch2
 Patch3: e-smith-manager-1.14.0-formrestyling.patch
+Patch4: e-smith-manager-1.14.0-tktport80.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildArchitectures: noarch
@@ -23,6 +24,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Mon Apr 9 2007 Stephen Noble <support@dungog.net> 1.14.0-6
+- Convert http to https [SME: 2577]
+
 * Mon Mar 12 2007 Gavin Weight <gweight@gmail.com> 1.14.0-5
 - Restyle the SME Server manager login form. [SME: 2666]
 
@@ -559,6 +563,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 perl createlinks
