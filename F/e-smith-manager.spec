@@ -4,10 +4,8 @@ Name: %{name}
 %define version 1.14.0
 %define release 6
 Version: %{version}
-Release: %smerelease %{release}
-Packager: %{_packager}
+Release: %{release}%{?dist}
 License: GPL
-Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-manager-1.14.0.module_list.patch
@@ -17,6 +15,7 @@ Patch3: e-smith-manager-1.14.0-formrestyling.patch
 Patch4: e-smith-manager-1.14.0-tktport80.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
+BuildRequires: gettext
 BuildArchitectures: noarch
 Requires: e-smith-lib >= 1.14.0
 Requires: mod_auth_tkt
@@ -24,6 +23,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
+- Clean up spec so package can be built by koji/plague
+
 * Mon Apr 9 2007 Stephen Noble <support@dungog.net> 1.14.0-6
 - Convert http to https [SME: 2577]
 
