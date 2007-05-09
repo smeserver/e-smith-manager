@@ -4,10 +4,8 @@ Name: %{name}
 %define version 1.12.0
 %define release 3
 Version: %{version}
-Release: %smerelease %{release}
-Packager: %{_packager}
+Release: %{release}%{?dist}
 License: GPL
-Vendor: Mitel Networks Corporation
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-manager-1.12.0-navigation-conf.noFM.patch
@@ -19,6 +17,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
+- Clean up spec so package can be built by koji/plague
+
 * Wed Jan 17 2007 Shad L. Lords <slords@mail.com> 1.12.0-3
 - Backport navigation-conf to fix warnings [SME: 2284]
 
