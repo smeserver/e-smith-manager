@@ -1,0 +1,26 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20Manager mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20Manager
+--- e-smith-manager-1.14.0/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20Manager	2007-05-18 21:36:44.000000000 -0600
++++ mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/templates/etc/httpd/admin-conf/httpd.conf/20Manager	2007-05-18 21:22:16.000000000 -0600
+@@ -49,7 +49,8 @@
+     ssl
+     ))
+ {
+-    next unless -f "/usr/lib/httpd/modules/mod_${_}.so";
++    next unless -f "/usr/lib/httpd/modules/mod_${_}.so" || 
++                -f "/usr/lib64/httpd/modules/mod_${_}.so";
+     $OUT .= "LoadModule ${_}_module modules/mod_${_}.so\n";
+ }
+ 
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login
+--- e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login	2007-05-18 21:36:44.000000000 -0600
++++ mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login	2007-05-18 21:23:39.000000000 -0600
+@@ -53,7 +53,8 @@
+ sub validate
+ {
+   my ($username, $password) = @_;
+-  unless (open(PWAUTH, "|/usr/lib/httpd/modules/pwauth"))
++  my $pwauth = -f "/usr/lib64/httpd/modules/pwauth" ? "/usr/lib64/httpd/modules/pwauth" : "/usr/lib/httpd/modules/pwauth";
++  unless (open(PWAUTH, "|$pwauth"))
+   {
+     warn "Could not open pipe to pwauth: $!";
+     return 0;
