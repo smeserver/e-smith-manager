@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login
+--- e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login	2007-01-26 18:51:30.000000000 -0700
++++ mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login	2007-03-05 16:18:00.000000000 -0700
+@@ -91,7 +91,7 @@
+ my $AUTH_DOMAIN = $server_name;
+ warn "AUTH_DOMAIN is $AUTH_DOMAIN\n";
+ warn "AuthTkt->domain was set\n" if $at->domain;
+-my @auth_domain = $AUTH_DOMAIN ? ( -domain => $AUTH_DOMAIN ) : ();
++my @auth_domain = $AUTH_DOMAIN && $AUTH_DOMAIN =~ /\./ ? ( -domain => $AUTH_DOMAIN ) : ();
+ my $ticket = $q->cookie($at->cookie_name);
+ my $probe = $q->cookie('auth_probe');
+ my $back = $q->cookie($at->back_cookie_name) if $at->back_cookie_name;
