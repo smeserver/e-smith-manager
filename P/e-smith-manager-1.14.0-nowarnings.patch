@@ -1,0 +1,73 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login
+--- e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login	2007-07-01 08:04:55.000000000 -0600
++++ mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/login	2007-07-01 08:02:51.000000000 -0600
+@@ -83,38 +83,38 @@
+ my $at = Apache::AuthTkt->new(conf => "/etc/e-smith/web/common/cgi-bin/AuthTKT.cfg");
+ my $q = CGI->new;
+ my $x_f = $q->http('X-Forwarded-Host');
+-warn "X-Forwarded-Host is $x_f\n" if $x_f;
+-warn "HTTP_HOST is $ENV{HTTP_HOST}\n" if $ENV{HTTP_HOST};
++#warn "X-Forwarded-Host is $x_f\n" if $x_f;
++#warn "HTTP_HOST is $ENV{HTTP_HOST}\n" if $ENV{HTTP_HOST};
+ my ($server_name, $server_port) = split /:/, $q->http('X-Forwarded-Host') || $ENV{HTTP_HOST};
+ $server_name ||= $ENV{SERVER_NAME} if $ENV{SERVER_NAME};
+ $server_port ||= $ENV{SERVER_PORT} if $ENV{SERVER_PORT};
+ #my $AUTH_DOMAIN = $at->domain || $server_name;
+ my $AUTH_DOMAIN = $server_name;
+-warn "AUTH_DOMAIN is $AUTH_DOMAIN\n";
+-warn "AuthTkt->domain was set\n" if $at->domain;
++#warn "AUTH_DOMAIN is $AUTH_DOMAIN\n";
++#warn "AuthTkt->domain was set\n" if $at->domain;
+ my @auth_domain = $AUTH_DOMAIN && $AUTH_DOMAIN =~ /\./ ? ( -domain => $AUTH_DOMAIN ) : ();
+ my $ticket = $q->cookie($at->cookie_name);
+ my $probe = $q->cookie('auth_probe');
+ my $back = $q->cookie($at->back_cookie_name) if $at->back_cookie_name;
+-warn "back from cookie is $back\n" if $back;
++#warn "back from cookie is $back\n" if $back;
+ my $have_cookies = $ticket || $probe || $back || '';
+ $back ||= $q->param($at->back_arg_name) if $at->back_arg_name;
+-warn "back from cgi param is $back\n" if $back;
++#warn "back from cgi param is $back\n" if $back;
+ $back ||= $ENV{HTTP_REFERER} if $ENV{HTTP_REFERER} && $BACK_REFERER;
+ $back =~ s/^http:/https:/;
+-warn "back is $back\n";
++#warn "back is $back\n";
+ if ($back && $back =~ m!^/!) {
+   my $hostname = $server_name;
+   my $port = $server_port;
+   $hostname .= ':' . $port if $port && $port != 80 && $port != 443;
+   $back = sprintf "http%s://%s%s", ($port == 443 ? 's' : ''), $hostname, $back;
+-warn "back is $back\n";
++#warn "back is $back\n";
+ } elsif ($back && $back !~ m/^http/i) {
+   $back = 'http://' . $back;
+-warn "back is $back\n";
++#warn "back is $back\n";
+ }
+ $back = uri_unescape($back) if $back && $back =~ m/^https?%3A%2F%2F/;
+-warn "back is $back\n";
++#warn "back is $back\n";
+ my $back_esc = uri_escape($back) if $back;
+ my $back_html = escapeHTML($back) if $back;
+ 
+@@ -328,7 +328,7 @@
+     print qq(</form>\n);
+ }
+ 
+-  print qq(<p><a href="$back_html">Previous Page</a></p>\n) if $back_html;
++#  print qq(<p><a href="$back_html">Previous Page</a></p>\n) if $back_html;
+   print <<EOD;
+ </div>
+ </body>
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/logout mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/logout
+--- e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/logout	2007-07-01 08:04:55.000000000 -0600
++++ mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/common/cgi-bin/logout	2007-07-01 08:04:34.000000000 -0600
+@@ -33,7 +33,7 @@
+ my $at = Apache::AuthTkt->new(conf => "/etc/e-smith/web/common/cgi-bin/AuthTKT.cfg");
+ my $q = CGI->new;
+ my ($server_name, $server_port) = split /:/, $q->http('X-Forwarded-Host') || $ENV{HTTP_HOST};
+-warn "servername is $server_name; HOST is $ENV{HTTP_HOST}\n";
++#warn "servername is $server_name; HOST is $ENV{HTTP_HOST}\n";
+ $server_name ||= $ENV{SERVER_NAME};
+ $server_port ||= $ENV{SERVER_PORT};
+ $server_port = '443';
