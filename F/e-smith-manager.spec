@@ -25,7 +25,7 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
-* Fri Jul 01 2007 Shad L. Lords <slords@mail.com> 1.14.0-8
+* Sun Jul 01 2007 Shad L. Lords <slords@mail.com> 1.14.0-8
 - Make login/logout no quite so verbose.
 
 * Fri May 18 2007 Shad L. Lords <slords@mail.com> 1.14.0-7
