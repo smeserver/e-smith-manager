@@ -26,7 +26,7 @@ AutoReqProv: no
 
 %changelog
 * Sun Jul 01 2007 Shad L. Lords <slords@mail.com> 1.14.0-8
-- Make login/logout no quite so verbose.
+- Make login/logout no quite so verbose. [SME: 2660]
 
 * Fri May 18 2007 Shad L. Lords <slords@mail.com> 1.14.0-7
 - Use correct lib for modules
