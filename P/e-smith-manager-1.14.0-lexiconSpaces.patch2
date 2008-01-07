@@ -12,9 +12,9 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/events/
 -	    DescriptionWeight => localise($lexicon, $description_weight));
 +
 +	 my $loc_heading =  localise($lexicon, $heading);
-+	 $loc_heading =~ s/^\s*(\w.*)\s*$/$1/;
++	 $loc_heading =~ s/^\s*(\w.*?)\s*$/$1/;
 +	 my $loc_description =  localise($lexicon, $description);
-+	 $loc_description =~ s/^\s*(\w.*)\s*$/$1/;
++	 $loc_description =~ s/^\s*(\w.*?)\s*$/$1/;
 + 	 $rec->merge_props(
 +	     Heading => $loc_heading,
 +	     Description => $loc_description,
