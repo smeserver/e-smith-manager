@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.14.0
-%define release 8
+%define release 11
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -15,6 +15,7 @@ Patch3: e-smith-manager-1.14.0-formrestyling.patch
 Patch4: e-smith-manager-1.14.0-tktport80.patch
 Patch5: e-smith-manager-1.14.0-lib64.patch
 Patch6: e-smith-manager-1.14.0-nowarnings.patch
+Patch7: e-smith-manager-1.14.0-lexiconSpaces.patch2
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -25,8 +26,17 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Tue Jan 08 2008 Stephen Noble <support@dungog.net> 1.14.0-11
+- Fix to remove spaces and newlines in panel headers [SME: 3346] 
+
+* Tue Jan 08 2008 Stephen Noble <support@dungog.net> 1.14.0-10
+- remove the FormMagick session files [SME: 3723]
+
+* Tue Jan 08 2008 Stephen Noble <support@dungog.net> 1.14.0-9
+- Remove spaces and newlines in panel headers [SME: 3346] 
+
 * Sun Jul 01 2007 Shad L. Lords <slords@mail.com> 1.14.0-8
-- Make login/logout no quite so verbose.
+- Make login/logout no quite so verbose. [SME: 2660]
 
 * Fri May 18 2007 Shad L. Lords <slords@mail.com> 1.14.0-7
 - Use correct lib for modules
@@ -576,6 +586,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 perl createlinks
@@ -640,6 +651,11 @@ rm -rf $RPM_BUILD_ROOT
 %pre
 %preun
 %post
+find /etc/e-smith/web/panels/manager/cgi-bin/ -type f | \
+    sed -n '/\/[0-9a-z]\{32\}$/p' | \
+    xargs grep -l Persisten | \
+    xargs rm -f
+
 %postun
 
 %files -f %{name}-%{version}-%{release}-filelist
