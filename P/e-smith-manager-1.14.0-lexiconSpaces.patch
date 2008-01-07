@@ -1,0 +1,25 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/events/actions/navigation-conf mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/events/actions/navigation-conf
+--- e-smith-manager-1.14.0/root/etc/e-smith/events/actions/navigation-conf	2007-01-26 18:51:30.000000000 -0700
++++ mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/events/actions/navigation-conf	2008-01-07 07:10:08.000000000 -0700
+@@ -110,11 +110,16 @@
+ 		$lexicon->{$base} = $trans;
+ 	    }
+          }
+-	$rec->merge_props(
+-	    Heading => localise($lexicon, $heading),
+-	    Description => localise($lexicon, $description),
+-	    HeadingWeight => localise($lexicon, $heading_weight),
+-	    DescriptionWeight => localise($lexicon, $description_weight));
++
++	 my $loc_heading =  localise($lexicon, $heading);
++	 $loc_heading =~ s/^\s*(\w.*)\s*$/$1/;
++	 my $loc_description =  localise($lexicon, $description);
++	 $loc_description =~ s/^\s*(\w.*)\s*$/$1/;
++ 	 $rec->merge_props(
++	     Heading => $loc_heading,
++	     Description => $loc_description,
++	     HeadingWeight => localise($lexicon, $heading_weight),
++	     DescriptionWeight => localise($lexicon, $description_weight));
+     }
+ }
+ foreach my $lang (@langs)
