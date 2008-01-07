@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.14.0
-%define release 9
+%define release 10
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -26,6 +26,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Tue Jan 08 2008 Stephen Noble <support@dungog.net> 1.14.0-10
+- remove the FormMagick session files [SME: 3723]
+
 * Tue Jan 08 2008 Stephen Noble <support@dungog.net> 1.14.0-9
 - Remove spaces and newlines in panel headers [SME: 3346] 
 
@@ -645,6 +648,11 @@ rm -rf $RPM_BUILD_ROOT
 %pre
 %preun
 %post
+find /etc/e-smith/web/panels/manager/cgi-bin/ -type f | \
+    sed -n '/\/[0-9a-z]\{32\}$/p' | \
+    xargs grep -l Persisten | \
+    xargs rm -f
+
 %postun
 
 %files -f %{name}-%{version}-%{release}-filelist
