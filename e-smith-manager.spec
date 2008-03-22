@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.14.0
-%define release 11
+%define release 12
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -16,6 +16,7 @@ Patch4: e-smith-manager-1.14.0-tktport80.patch
 Patch5: e-smith-manager-1.14.0-lib64.patch
 Patch6: e-smith-manager-1.14.0-nowarnings.patch
 Patch7: e-smith-manager-1.14.0-lexiconSpaces.patch2
+Patch8: e-smith-manager-1.14.0-utf8.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -26,6 +27,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Sat Mar 22 2008 Shad L. Lords <slords@mail.com> 1.14.0-12
+- Fix UTF-8 encoding in header and nav-conf [SME: 4072]
+
 * Tue Jan 08 2008 Stephen Noble <support@dungog.net> 1.14.0-11
 - Fix to remove spaces and newlines in panel headers [SME: 3346] 
 
@@ -587,6 +591,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 perl createlinks
