@@ -1,0 +1,13 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/web/functions/navigation mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/functions/navigation
+--- e-smith-manager-1.14.0/root/etc/e-smith/web/functions/navigation	2007-01-26 18:51:30.000000000 -0700
++++ mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/web/functions/navigation	2008-03-25 15:27:04.000000000 -0600
+@@ -100,6 +100,9 @@
+ {
+     my $q = shift;
+  
++    # enable utf8 binmode so new translations work
++    binmode STDOUT, ":utf8";
++
+     # Use this variable throughout to keep track of files
+     # list of just the files
+     my $c = "1";
