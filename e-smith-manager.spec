@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.14.0
-%define release 13
+%define release 14
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -18,6 +18,7 @@ Patch6: e-smith-manager-1.14.0-nowarnings.patch
 Patch7: e-smith-manager-1.14.0-lexiconSpaces.patch2
 Patch8: e-smith-manager-1.14.0-utf8.patch
 Patch9: e-smith-manager-1.14.0-utf8.patch2
+Patch10: e-smith-manager-1.14.0-generalnav.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -28,6 +29,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Wed Mar 26 2008 Shad L. Lords <slords@mail.com> 1.14.0-14
+- Include general lexicons in nav-config [SME: 4113]
+
 * Tue Mar 25 2008 Shad L. Lords <slords@mail.com> 1.14.0-13
 - Fix wide output to print in navigation and allow navigations db to
   be utf8 [SME: 4101]
@@ -598,6 +602,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 perl createlinks
