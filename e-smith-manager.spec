@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.14.0
-%define release 14
+%define release 15
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -19,6 +19,7 @@ Patch7: e-smith-manager-1.14.0-lexiconSpaces.patch2
 Patch8: e-smith-manager-1.14.0-utf8.patch
 Patch9: e-smith-manager-1.14.0-utf8.patch2
 Patch10: e-smith-manager-1.14.0-generalnav.patch
+Patch11: e-smith-manager-1.14.0-pleasewait.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -29,6 +30,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Fri Mar 28 2008 Shad L. Lords <slords@mail.com> 1.14.0-15
+- Remove last remnant of pleasewait [SME: 4133]
+
 * Wed Mar 26 2008 Shad L. Lords <slords@mail.com> 1.14.0-14
 - Include general lexicons in nav-config [SME: 4113]
 
@@ -603,6 +607,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %build
 perl createlinks
