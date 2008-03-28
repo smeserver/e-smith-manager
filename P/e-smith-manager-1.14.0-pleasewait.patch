@@ -1,0 +1,14 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/templates/etc/e-smith/web/panels/manager/html/header.htm/60InfoBar mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/templates/etc/e-smith/web/panels/manager/html/header.htm/60InfoBar
+--- e-smith-manager-1.14.0/root/etc/e-smith/templates/etc/e-smith/web/panels/manager/html/header.htm/60InfoBar	2007-01-26 18:51:30.000000000 -0700
++++ mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/templates/etc/e-smith/web/panels/manager/html/header.htm/60InfoBar	2008-03-28 10:29:11.000000000 -0600
+@@ -6,8 +6,8 @@
+         &nbsp;&nbsp;&nbsp;
+         <!-- <a href="#">Logout</a> --></td>
+         <td align=right nowrap class="infobar">
+-          <!-- <a class="update" target="main" href="/server-manager/cgi-bin/pleasewait?/server-manager/cgi-bin/blades">Update Available</a>|-->
+-          <a target="main" href="/server-manager/cgi-bin/pleasewait?/server-manager/cgi-bin/online-manual">&nbsp;&nbsp;<b> ? </b>&nbsp;&nbsp;</a>&nbsp;</td>
++          <!-- <a class="update" target="main" href="/server-manager/cgi-bin/blades">Update Available</a>|-->
++          <a target="main" href="/server-manager/cgi-bin/online-manual">&nbsp;&nbsp;<b> ? </b>&nbsp;&nbsp;</a>&nbsp;</td>
+         <td nowrap class="infobar">
+           <a target="_parent" href="/server-common/cgi-bin/logout"><b>Logout</b></a>&nbsp;</td>
+   </tr>
