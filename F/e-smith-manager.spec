@@ -31,7 +31,7 @@ AutoReqProv: no
 
 %changelog
 * Fri Mar 28 2008 Shad L. Lords <slords@mail.com> 1.14.0-15
-- Remove last remnant of pleasewait [SME: 4133]
+- Remove last remnant of pleasewait [SME: 4130]
 
 * Wed Mar 26 2008 Shad L. Lords <slords@mail.com> 1.14.0-14
 - Include general lexicons in nav-config [SME: 4113]
