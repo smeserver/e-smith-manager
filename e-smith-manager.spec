@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.14.0
-%define release 16
+%define release 17
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -21,6 +21,7 @@ Patch9: e-smith-manager-1.14.0-utf8.patch2
 Patch10: e-smith-manager-1.14.0-generalnav.patch
 Patch11: e-smith-manager-1.14.0-pleasewait.patch
 Patch12: e-smith-manager-1.14.0-navdbfix.patch
+Patch13: e-smith-manager-1.14.0-encoding.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -31,6 +32,10 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Mon Mar 31 2008 Shad L. Lords <slords@mail.com> 1.14.0-17
+- No longer remove navigation dbs. [SME: 4147]
+- Deal a little more gracefully with non UTF-8 lexicons [SME: 4229]
+
 * Mon Mar 31 2008 Shad L. Lords <slords@mail.com> 1.14.0-16
 - Remove navigation dbs and create new [SME: 4147]
 
@@ -613,6 +618,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 %build
 perl createlinks
