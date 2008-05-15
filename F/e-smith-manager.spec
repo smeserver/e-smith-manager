@@ -32,7 +32,7 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
-* Mon Mar 31 2008 Shad L. Lords <slords@mail.com> 1.14.0-17
+* Tue May 15 2008 Shad L. Lords <slords@mail.com> 1.14.0-17
 - No longer remove navigation dbs. [SME: 4147]
 - Deal a little more gracefully with non UTF-8 lexicons [SME: 4229]
 
