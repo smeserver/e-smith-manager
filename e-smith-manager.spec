@@ -34,7 +34,7 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
-* Tue Jul 1 2008 Shad L. Lords <slords@mail.com> 1.14.0-19
+* Thu Jul 31 2008 Shad L. Lords <slords@mail.com> 1.14.0-19
 - Make binmode properties of db class [SME: 4317]
 - Add new navigation db & utf8 classes [SME: 4317]
 
