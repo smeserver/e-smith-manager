@@ -1,0 +1,23 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-1.14.0/root/etc/e-smith/events/actions/navigation-conf mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/events/actions/navigation-conf
+--- e-smith-manager-1.14.0/root/etc/e-smith/events/actions/navigation-conf	2008-07-31 10:01:11.000000000 -0600
++++ mezzanine_patched_e-smith-manager-1.14.0/root/etc/e-smith/events/actions/navigation-conf	2008-07-31 10:00:56.000000000 -0600
+@@ -22,7 +22,7 @@
+ 
+ use strict;
+ 
+-use esmith::ConfigDB;
++use esmith::NavigationDB;
+ use esmith::I18N;
+ 
+ use constant WEBFUNCTIONS => '/etc/e-smith/web/functions';
+@@ -81,8 +81,8 @@
+ #warn "updating script $file for lang $lang\n";
+ 	my $navdb = $navdbs{$lang};
+ 	my $navinfo = NAVIGATIONDIR . "/navigation.$lang";
+-	$navdb ||= esmith::ConfigDB->open($navinfo);
+-	$navdb ||= esmith::ConfigDB->create($navinfo) or
++	$navdb ||= esmith::NavigationDB->open($navinfo);
++	$navdb ||= esmith::NavigationDB->create($navinfo) or
+ 	    die "Couldn't create $navinfo\n";
+         $navdbs{$lang} ||= $navdb;
+ 	my $rec = $navdb->get($file) || 
