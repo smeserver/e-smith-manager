@@ -2,7 +2,7 @@ Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 1.14.0
-%define release 18
+%define release 19
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -23,16 +23,21 @@ Patch11: e-smith-manager-1.14.0-pleasewait.patch
 Patch12: e-smith-manager-1.14.0-navdbfix.patch
 Patch13: e-smith-manager-1.14.0-encoding.patch
 Patch14: e-smith-manager-1.14.0-create.patch
+Patch15: e-smith-manager-1.14.0-navigationdb.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
 BuildArchitectures: noarch
-Requires: e-smith-lib >= 1.14.0
+Requires: e-smith-lib >= 1.18.0-26
 Requires: mod_auth_tkt
 Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Tue Jul 1 2008 Shad L. Lords <slords@mail.com> 1.14.0-19
+- Make binmode properties of db class [SME: 4317]
+- Add new navigation db & utf8 classes [SME: 4317]
+
 * Tue Jul 1 2008 Shad L. Lords <slords@mail.com> 1.14.0-18
 - Fix open of database to create if necessary [SME: 4147]
 
@@ -624,6 +629,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 
 %build
 perl createlinks
