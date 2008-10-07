@@ -1,30 +1,15 @@
+# $Id: e-smith-manager.spec,v 1.14 2008/10/07 18:44:02 slords Exp $
+
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
-%define version 1.14.0
-%define release 20
+%define version 2.0.0
+%define release 1
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-manager-1.14.0.module_list.patch
-Patch1: e-smith-manager-1.14.0.tktdomain.patch
-Patch2: e-smith-manager-1.14.0.tktdomain.patch2
-Patch3: e-smith-manager-1.14.0-formrestyling.patch
-Patch4: e-smith-manager-1.14.0-tktport80.patch
-Patch5: e-smith-manager-1.14.0-lib64.patch
-Patch6: e-smith-manager-1.14.0-nowarnings.patch
-Patch7: e-smith-manager-1.14.0-lexiconSpaces.patch2
-Patch8: e-smith-manager-1.14.0-utf8.patch
-Patch9: e-smith-manager-1.14.0-utf8.patch2
-Patch10: e-smith-manager-1.14.0-generalnav.patch
-Patch11: e-smith-manager-1.14.0-pleasewait.patch
-Patch12: e-smith-manager-1.14.0-navdbfix.patch
-Patch13: e-smith-manager-1.14.0-encoding.patch
-Patch14: e-smith-manager-1.14.0-create.patch
-Patch15: e-smith-manager-1.14.0-navigationdb.patch
-Patch16: e-smith-manager-1.14.0-nav_utf8.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -35,6 +20,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 2.0.0-1.sme
+- Roll new stream to separate sme7/sme8 trees [SME: 4633]
+
 * Sat Oct 4 2008 Shad L. Lords <slords@mail.com> 1.14.0-20
 - Make navigation use new db class for navigation [SME: 4619]
 
@@ -618,23 +606,6 @@ This RPM contributes the navigation bars for the e-smith-manager.
 
 %prep
 %setup
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
 
 %build
 perl createlinks
