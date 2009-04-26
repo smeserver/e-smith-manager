@@ -1,0 +1,11 @@
+--- e-smith-manager-2.0.0/root/etc/e-smith/web/common/cgi-bin/login.bug5022	2008-10-07 19:36:15.000000000 +0200
++++ e-smith-manager-2.0.0/root/etc/e-smith/web/common/cgi-bin/login	2009-03-02 19:08:48.000000000 +0100
+@@ -148,7 +148,7 @@
+   # If no $back, just set the auth cookie and hope for the best
+   if (! $back) {
+     print $q->header( -cookie => $cookie );
+-    print $q->start_html, $q->p(Login successful), $q->end_html;
++    print $q->start_html, $q->p("Login successful"), $q->end_html;
+     return 0;
+   }
+ 
