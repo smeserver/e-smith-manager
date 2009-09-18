@@ -1,16 +1,17 @@
-# $Id: e-smith-manager.spec,v 1.15 2009/04/26 08:16:30 snetram Exp $
+# $Id: e-smith-manager.spec,v 1.16 2009/09/18 08:26:11 dungog Exp $
 
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 2.0.0
-%define release 2
+%define release 3
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-manager-2.0.0-bug5022.patch
+Patch1: e-smith-manager-2.0.0-unsavedchanges.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -21,6 +22,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Fri Sep 18 2009 Stephen Noble <support@dungog.net> 2.0.0-3.sme 
+- display reconfigure warning if UnsavedChanges=yes [SME: 2081]
+
 * Sun Apr 26 2009 Jonathan Martens <smeserver-contribs@snetram.nl> 2.0.0-2.sme
 - Fix misinterpretation of display string [SME: 5022]
 
@@ -611,6 +615,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
 
 %build
 perl createlinks
