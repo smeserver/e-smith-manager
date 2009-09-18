@@ -1,0 +1,14 @@
+diff -urN e-smith-manager-2.0.0.orig/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01 e-smith-manager-2.0.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01
+--- e-smith-manager-2.0.0.orig/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01	2006-11-03 03:38:41.000000000 +1100
++++ e-smith-manager-2.0.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01	2009-06-15 20:53:58.000000000 +1000
+@@ -35,5 +35,10 @@
+     may leave your system in an unknown state!</h5></div>)
+     if ($DB->get('bootstrap-console') and $DB->get('bootstrap-console')->prop('Run') eq 'yes');
+ 
++  $OUT .= qq(<div class="sme-error"><h5>
++    Warning: a reconfigure and reboot is required before proceeding! Failure to reconfigure now
++    may leave your system in an unknown state!</h5></div>)
++    if ($DB->get('UnsavedChanges') and $DB->get('UnsavedChanges')->value eq 'yes');
++
+   $OUT;
+ \}
