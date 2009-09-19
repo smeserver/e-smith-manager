@@ -1,10 +1,10 @@
-# $Id: e-smith-manager.spec,v 1.17 2009/09/19 12:10:59 dungog Exp $
+# $Id: e-smith-manager.spec,v 1.18 2009/09/19 12:13:20 dungog Exp $
 
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 2.0.0
-%define release 3
+%define release 4
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
