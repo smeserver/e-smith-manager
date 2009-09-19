@@ -1,0 +1,15 @@
+--- e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01.unsavedchanges2	2006-11-03 03:38:41.000000000 +1100
++++ e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01	2009-09-19 21:58:53.000000000 +1000
+@@ -31,9 +31,10 @@
+     unless ($DB->get('PasswordSet')->value eq "yes");
+ 
+   $OUT .= qq(<div class="sme-error"><h5>
+-    Warning: a reboot is required before proceeding! Failure to reboot now
++    Warning: a reconfigure and reboot is required before proceeding! Failure to do so now
+     may leave your system in an unknown state!</h5></div>)
+-    if ($DB->get('bootstrap-console') and $DB->get('bootstrap-console')->prop('Run') eq 'yes');
++    if ($DB->get('bootstrap-console') and $DB->get('bootstrap-console')->prop('Run') eq 'yes') ||
++       ($DB->get('UnsavedChanges') and $DB->get('UnsavedChanges')->value eq 'yes');
+ 
+   $OUT;
+ \}
