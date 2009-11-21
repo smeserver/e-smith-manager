@@ -1,4 +1,4 @@
-# $Id: e-smith-manager.spec,v 1.18 2009/09/19 12:13:20 dungog Exp $
+# $Id: e-smith-manager.spec,v 1.19 2009/11/21 21:44:31 bytegw Exp $
 
 Summary: e-smith manager navigation module
 %define name e-smith-manager
@@ -23,7 +23,7 @@ AutoReqProv: no
 
 %changelog
 * Fri Sep 18 2009 Stephen Noble <support@dungog.net> 2.0.0-4.sme 
-- display reconfigure warning once if UnsavedChanges=yes [SME: 5475]
+- display reconfigure warning once if UnsavedChanges=yes [SME: 2081]
 
 * Fri Sep 18 2009 Stephen Noble <support@dungog.net> 2.0.0-3.sme 
 - display reconfigure warning if UnsavedChanges=yes [SME: 2081]
