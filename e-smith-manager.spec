@@ -1,10 +1,10 @@
-# $Id: e-smith-manager.spec,v 1.17 2009/09/19 12:07:15 dungog Exp $
+# $Id: e-smith-manager.spec,v 1.18 2009/12/09 20:19:24 charliebrady Exp $
 
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 2.2.0
-%define release 4
+%define release 5
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -12,6 +12,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-manager-2.2.0-bug5022.patch
 Patch1: e-smith-manager-2.2.0-unsavedchanges2.patch
+Patch2: e-smith-manager-2.2.0-bug5656.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -22,6 +23,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Wed Dec  9 2009 Charlie Brady <charlieb@budge.apana.org.au> 2.2.0-4.sme
+- Fix css validation errors. [SME: 5656]
+
 * Fri Sep 18 2009 Stephen Noble <support@dungog.net> 2.2.0-4.sme 
 - display reconfigure warning once if UnsavedChanges=yes [SME: 5475]
 
@@ -619,6 +623,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %setup
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 perl createlinks

@@ -1,0 +1,44 @@
+--- e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/css/sme_main.css/50body.bug5656	2009-12-09 15:14:54.000000000 -0500
++++ e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/css/sme_main.css/50body	2009-12-09 15:16:13.000000000 -0500
+@@ -163,7 +163,7 @@
+ /* these two are for any error messages that pop up*/
+ div.error, div.sme-error, span.error, span.sme-error {
+     color: red;
+-    background-color: #fffff;
++    background-color: #ffffff;
+     border-width: 1px;
+     border-style: solid;
+     border-color: red ; 
+@@ -179,7 +179,7 @@
+ span.error-noborders, span.sme-error-noborders
+ {
+     color: red;
+-    background-color: #fffff;
++    background-color: #ffffff;
+     border-width: 0px;
+ }
+ 
+@@ -207,11 +207,11 @@
+ 
+ /* these two are for any success messages that pop up*/
+ div.success, span.success {
+-    color: darkgreen;
+-    background-color: #fffff;
++    color: #006400;
++    background-color: #ffffff;
+     border-width: 1px;
+     border-style: solid;
+-    border-color: darkgreen ; 
++    border-color: #006400 ; 
+     padding: 2px;
+     margin-left: 20px;
+     margin-right: 20px;
+@@ -223,7 +223,7 @@
+ /* These two are for the special case of a link being inside a success message */
+ div.success a, span.success a 
+ {
+-    color: darkgreen;
++    color: #006400;
+     font-weight: bold;
+     text-decoration: underline;
+ }
