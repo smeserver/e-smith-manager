@@ -1,4 +1,4 @@
-# $Id: e-smith-manager.spec,v 1.18 2009/12/09 20:19:24 charliebrady Exp $
+# $Id: e-smith-manager.spec,v 1.19 2010/01/31 11:36:15 snetram Exp $
 
 Summary: e-smith manager navigation module
 %define name e-smith-manager
@@ -13,6 +13,7 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-manager-2.2.0-bug5022.patch
 Patch1: e-smith-manager-2.2.0-unsavedchanges2.patch
 Patch2: e-smith-manager-2.2.0-bug5656.patch
+Patch3: e-smith-manager-2.2.0-display-admin-only-messages-only-for-server-manager.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -23,6 +24,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Sun Jan 31 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 2.2.0-5.sme
+- Only display error messages intended for admin in server-manager [SME: 5700]
+
 * Wed Dec  9 2009 Charlie Brady <charlieb@budge.apana.org.au> 2.2.0-4.sme
 - Fix css validation errors. [SME: 5656]
 
@@ -624,6 +628,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 perl createlinks

@@ -1,0 +1,36 @@
+diff -up e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01.display-admin-only-messages-only-for-server-manager e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01
+--- e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01.display-admin-only-messages-only-for-server-manager	2010-01-31 12:31:51.000000000 +0100
++++ e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/head.tmpl/30FrameSetup01	2010-01-31 12:33:42.000000000 +0100
+@@ -25,16 +25,21 @@ EOF
+ EOF
+   \}
+ 
+-  $DB = esmith::ConfigDB->open();
+-  $OUT .= qq(<div class="sme-error"><h5>
+-    Warning: you have not yet changed the default system password.</h5></div>)
+-    unless ($DB->get('PasswordSet')->value eq "yes");
+-
+-  $OUT .= qq(<div class="sme-error"><h5>
+-    Warning: a reconfigure and reboot is required before proceeding! Failure to do so now
+-    may leave your system in an unknown state!</h5></div>)
+-    if ($DB->get('bootstrap-console') and $DB->get('bootstrap-console')->prop('Run') eq 'yes') ||
+-       ($DB->get('UnsavedChanges') and $DB->get('UnsavedChanges')->value eq 'yes');
++  if( $ENV\{REQUEST_URI\} =~ m/(server-manager)/) \{
++
++    $DB = esmith::ConfigDB->open();
++    $OUT .= qq(<div class="sme-error"><h5>
++      Warning: you have not yet changed the default system password.</h5></div>)
++      unless ($DB->get('PasswordSet')->value eq "yes");
++
++    $OUT .= qq(<div class="sme-error"><h5>
++      Warning: a reconfigure and reboot is required before proceeding! Failure to do so now
++      may leave your system in an unknown state!</h5></div>)
++      if ($DB->get('bootstrap-console') and $DB->get('bootstrap-console')->prop('Run') eq 'yes') ||
++         ($DB->get('UnsavedChanges') and $DB->get('UnsavedChanges')->value eq 'yes');
++
++    $OUT;
++
++  \}
+ 
+-  $OUT;
+ \}
