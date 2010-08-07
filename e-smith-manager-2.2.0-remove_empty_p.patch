@@ -1,0 +1,11 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/10Setup mezzanine_patched_e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/10Setup
+--- e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/10Setup	2006-11-02 17:38:41.000000000 +0100
++++ mezzanine_patched_e-smith-manager-2.2.0/root/etc/e-smith/templates/etc/e-smith/web/common/foot.tmpl/10Setup	2010-06-10 09:20:17.000000000 +0200
+@@ -4,7 +4,6 @@
+     $NO_FRAMES = ($fi_filename =~ /noframes_.*\.tmpl$/) ? 1 : 0;
+     $OUT;
+ \}
+-<P>
+ <HR class="sme-copyrightbar">
+ <FONT class="sme-copyright">
+   \{

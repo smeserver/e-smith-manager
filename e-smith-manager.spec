@@ -1,10 +1,10 @@
-# $Id: e-smith-manager.spec,v 1.19 2010/01/31 11:36:15 snetram Exp $
+# $Id: e-smith-manager.spec,v 1.20 2010/08/07 14:34:28 wellsi Exp $
 
 Summary: e-smith manager navigation module
 %define name e-smith-manager
 Name: %{name}
 %define version 2.2.0
-%define release 5
+%define release 6
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -14,6 +14,7 @@ Patch0: e-smith-manager-2.2.0-bug5022.patch
 Patch1: e-smith-manager-2.2.0-unsavedchanges2.patch
 Patch2: e-smith-manager-2.2.0-bug5656.patch
 Patch3: e-smith-manager-2.2.0-display-admin-only-messages-only-for-server-manager.patch
+Patch4: e-smith-manager-2.2.0-remove_empty_p.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildRequires: e-smith-devtools
 BuildRequires: gettext
@@ -24,6 +25,9 @@ Provides: server-manager
 AutoReqProv: no
 
 %changelog
+* Sat Aug 7 2010 Ian Wells <esmith@wellsi.com> 2.2.0-6.sme
+- Remove empty <p> tag from /etc/e-smith/web/common/foot.tmpl, by Daniel [SME: 5905]
+
 * Sun Jan 31 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 2.2.0-5.sme
 - Only display error messages intended for admin in server-manager [SME: 5700]
 
@@ -629,6 +633,7 @@ This RPM contributes the navigation bars for the e-smith-manager.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 perl createlinks
